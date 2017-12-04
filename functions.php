@@ -7,18 +7,6 @@ function wasserman_store_enqueue() {
 	wp_enqueue_style( 'wasserman-store-partent-style', get_template_directory_uri() . '/style.css' );
 }
 
-function add_email_to_login() {
-	add_filter( 'gettext', 'username_change', 20, 3 );
-	function username_change( $translated_text, $text, $domain ) {
-		if ( $text === 'Username' ) {
-			$translated_text = 'Username or Email';
-		}
-
-		return $translated_text;
-	}
-}
-
-//add_action( 'login_head', 'add_email_to_login' );
 
 add_action( 'after_setup_theme', 'register_user_menu' );
 //add_action( 'after_setup_theme', 'register_user_menu' );
@@ -32,28 +20,6 @@ function register_user_menu() {
 remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display' );
 //add_filter('woocommerce_after_cart_totals', 'woocommerce_cross_sell_display');
 //add_action( 'widgets_init', 'wasserman_store_widgets_init' );
-
-function wasserman_store_widgets_init() {
-	register_sidebar( [
-		'name'          => __( 'Main Sidebar', 'wasserman-store' ),
-		'id'            => 'sidebar-10',
-		'description'   => __( 'Widgets in this area will be shown on all posts and pages.', 'theme-slug' ),
-		'before_widget' => '<li id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</li>',
-		'before_title'  => '<h2 class="widgettitle">',
-		'after_title'   => '</h2>',
-	] );
-
-	register_sidebar( [
-		'name'          => __( 'Blog Sidebar', 'wasserman-store' ),
-		'id'            => 'sidebar-20',
-		'description'   => __( 'Widgets in this area will be shown on all posts and pages.', 'theme-slug' ),
-		'before_widget' => '<li id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</li>',
-		'before_title'  => '<h2 class="widgettitle">',
-		'after_title'   => '</h2>',
-	] );
-}
 
 /**
  * Adding ACF options page
@@ -69,14 +35,11 @@ function wsu_add_checkout_content() {
 	if ( have_rows( 'checkout_notices', 'options' ) ) {
 
 		while ( have_rows( 'checkout_notices', 'options' ) ) : the_row();
-
 			// Your loop code
 			$text   = get_sub_field( 'text' );
 			$active = get_sub_field( 'active' );
 
-
 			echo $text;
-
 
 		endwhile;
 	}
@@ -90,7 +53,6 @@ add_filter( 'woocommerce_variable_price_html', 'display_lowest_range_prie', 10, 
 function display_lowest_range_prie( $price, $product ) {
 
 	$price = '';
-
 
 	$price .= woocommerce_price( $product->get_price() );
 
@@ -179,22 +141,15 @@ function wm_hide_elements() {
 		endwhile;
 
 		foreach ( $slides as $slide ) {
-
 			$html .= ' ' . $slide['s'] . ' { ' . $slide['p'] . ' : ' . $slide['v'] . ' ; }';
-
-			/*'<style type="text/css">
-			</style>';*/
 		}
-	}
 
-	$h = esc_html($html);
-	$san = sanitize_text_field($html);
-	?>
-    <style type="text/css">
+		$san = sanitize_text_field( $html ); ?>
+        <style type="text/css">
 
-        <?php echo $h; ?>
-        <?php echo $san; ?>
-        <?php echo $html; ?>
+            <?php echo $san; ?>
 
-    </style>
-<?php }
+        </style>
+	<?php }
+
+}
