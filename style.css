@@ -1,0 +1,241 @@
+/*
+Theme Name: Wasserman Store
+Theme URI: http://wasserman-medical.com
+Description: Wasserman Medical Store
+Version: 1.0
+Author: Wasserman Medical
+Author URI: http://wasserman-medical.com
+Template: store
+Text Domain: wasserman-store
+*/
+
+
+/*************** ADD YOUR CUSTOM CSS IN THIS AREA ***************/
+#secondary input[type=search] {
+	/*max-width: 100%;
+	width:95%;
+	margin: 0 0 15px;*/
+}
+
+#primary-mono {
+	display: block;
+	/*float: right;*/
+}
+
+.woocommerce ul.products li.product {
+	max-width:22.2%;
+	margin: 0 2.8% 2.992em 0 !important;
+}
+
+.reg-form {
+
+}
+
+.reg-form label {
+
+}
+
+/*.woocommerce form.login,
+.woocommerce form.register {
+    max-width: 50%;
+    width: 100%;
+    height: auto;
+}*/
+ul#shipping_method li > label {
+	float: right;
+}
+.menu-item-has-children > li > a span:after{
+	display: none;
+}
+
+#sidebar-controls {
+	display: block;
+}
+#yith-wacp-popup .yith-wacp-content {
+    margin: 15px;
+    font-weight: 600;
+    background: #F7F5EE;
+    /* border: 1px inset; */
+}
+#yith-wacp-popup.open .yith-wacp-main {
+	background: #F7F5EE;
+	}
+#wp-live-chat{
+	/*right:15% !important;*/
+}
+#yith-wacp-popup .yith-wacp-content .product-info p:before {
+	/*content:url('images/basket.png');*/
+	display: block;
+	    margin: 0 20px 10px 20px;
+    opacity: 1;
+}
+#yith-wacp-popup .yith-wacp-content .product-info p:hover {
+    opacity: .7;
+}
+#yith-wacp-popup .yith-wacp-content {
+	opacity: 1;
+}
+#yith-wacp-popup .yith-wacp-content .product-info p:after {
+	content:" !";
+}
+#yith-wacp-popup.open .yith-wacp-main {
+    opacity: .87;
+}
+#yith-wacp-popup .yith-wacp-content .product-info p {
+
+    max-width: 330px;
+    width: 100%;
+    font-size: 18px;
+}
+#yith-wacp-popup .yith-wacp-content a.button {
+	font-size: 18px;
+	margin:5px;
+}
+#yith-wacp-popup .yith-wacp-close {
+    background: #FF7070;
+    border: 1px dotted #000;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 18px;
+    z-index: 2;
+    opacity: .6;
+    border-radius: 20px;
+    color: #000;
+}
+
+#top-search {
+	display: none !important;
+}
+
+.secured {
+	opacity: .7;
+}
+
+.secured:hover {
+	opacity: 1;
+}
+#top-menu ul li a {
+	font-size: 16px !important;
+	font-weight: 600;
+}
+
+.woocommerce .woocommerce-ordering select {
+
+}
+
+.cross-sells {
+	clear:both;
+	width:100% !important;
+}
+
+.search .postedon {
+	display: none;
+}
+/* We use this media query to add styles to any device that supports media queries */
+@media only screen {
+
+}
+
+/**
+ * Foundation: XLarge.
+ * Min-width 1441px and max-width 1920px, use when QAing xlarge screen-only issues
+ */
+@media only screen and (max-width: 120em) {
+
+}
+
+/**
+ * Foundation: Large.
+ * Min-width 1025px and max-width 1440px, use when QAing large screen-only issues
+ */
+@media only screen and (max-width: 90em) {
+
+}
+
+/**
+ * Foundation: Medium.
+ * Min-width 641px and max-width 1024px, use when QAing tablet-only issues
+ */
+@media only screen and (max-width: 64em) {
+	.woocommerce ul.products li.product {
+		max-width: 45% !important;
+		width: 100% !important;
+		height:auto;
+	}
+	.woocommerce form.login,
+	.woocommerce form.register {
+	    max-width: 80%;
+	    width: 100%;
+	    height: auto;
+	}
+}
+/**
+ * Foundation: Small.
+ * Max-width 640px, mobile-only styles, use when QAing mobile issues
+ */
+@media only screen and (max-width: 40em) {
+	.woocommerce ul.products li.product {
+		max-width: 98% !important;
+	    width: 100% !important;
+	}
+	#top-menu {
+		display: none;
+	}
+	#top-cart {
+		padding-top:0 !important;
+		top:0 !important;
+	}
+	ul#shipping_method li > label {
+		font-size: 12px;
+	}
+	#yith-wacp-popup.open .yith-wacp-main {
+	    max-width: 315px;
+	    width: 100%;
+	}
+	#yith-wacp-popup .yith-wacp-content .product-info p {
+		max-width: 315px;
+		width: 100%;
+	    font-size: 14px;
+	    margin:10px 0;
+	}
+	#yith-wacp-popup .yith-wacp-content a.button {
+		font-size: 14px;
+	}
+
+}
+
+/**
+ * Foundation: XXLarge
+ * Min-width 1921px, xxlarge screens
+ */
+@media only screen and (min-width: 120.063em) {
+
+}
+
+/* Apply styles to screens in landscape orientation */
+@media only screen and (orientation: landscape) {
+
+}
+
+/* Apply styles to screens in portrait orientation */
+@media only screen and (orientation: portrait) {
+
+}
+
+@media (min-width: 250px) and (max-width: 991px) {
+ 	#primary-mono {
+ 		max-width: 100% !important;
+ 		width: 100% !important;
+ 		float:none !important;
+ 	}
+ 	#sidebar-controls {
+		display: none !important;
+	}
+	#wp-live-chat {
+    right: 35% !important;
+}
+}
