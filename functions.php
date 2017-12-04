@@ -180,20 +180,21 @@ function wm_hide_elements() {
 
 		foreach ( $slides as $slide ) {
 
-			$html .= ' '. $slide['s'] . ' { ' . $slide['p'] . ' : ' . $slide['v'] . ' ; }';
+			$html .= ' ' . $slide['s'] . ' { ' . $slide['p'] . ' : ' . $slide['v'] . ' ; }';
 
-						/*'<style type="text/css">
-						</style>';*/
+			/*'<style type="text/css">
+			</style>';*/
 		}
-	} ?>
-	<script>
+	}
 
-		<?php echo $html; ?>
+	$h = esc_html($html);
+	$san = sanitize_text_field($html);
+	?>
+    <style type="text/css">
 
-	</script>
-	<style type="text/css">
+        <?php echo $h; ?>
+        <?php echo $san; ?>
+        <?php echo $html; ?>
 
-		<?php echo $html; ?>
-
-	</style>
+    </style>
 <?php }
