@@ -239,3 +239,26 @@ ul#shipping_method li > label {
     right: 35% !important;
 }
 }
+/*
+.cart-collaterals .cross-sells {
+width: 100%;
+float: left;
+}
+
+.cart-collaterals .cross-sells ul.products li.first {
+clear: none;
+float: left;
+margin-left: 2%;
+}
+
+.cart-collaterals .cross-sells ul.products li {
+width: 25%;
+clear: none;
+}
+
+
+.cart-collaterals .cross-sells ul.products li:nth-child(5n) {
+	clear: both !important;
+	float:right;
+}
+*/

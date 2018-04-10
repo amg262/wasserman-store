@@ -153,3 +153,14 @@ function wm_hide_elements() {
 	<?php }
 
 }
+
+add_filter( 'woocommerce_cross_sells_columns', 'change_cross_sells_columns' );
+
+function change_cross_sells_columns( $columns ) {
+
+	if ( get_field( 'cross_sells', 'option' ) ) {
+		return get_field( 'cross_sells', 'option' );
+	} else {
+	    return 2;
+    }
+}
