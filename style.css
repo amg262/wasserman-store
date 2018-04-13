@@ -2,30 +2,28 @@
 Theme Name: Wasserman Store
 Theme URI: https://github.com/amg262/wasserman-store
 Description: Wasserman Medical Store
-Version: 1.2.0
+Version: 2.1
 Author: Wasserman Medical
 Author URI: http://wasserman-medical.com
 Template: store
 Text Domain: wasserman-store
 */
 
-
 /*************** ADD YOUR CUSTOM CSS IN THIS AREA ***************/
 #secondary input[type=search] {
-	/*max-width: 100%;
-	width:95%;
-	margin: 0 0 15px;*/
+    /*max-width: 100%;
+    width:95%;
+    margin: 0 0 15px;*/
 }
 
 #primary-mono {
-	display: block;
-	/*float: right;*/
+    display: block;
+    /*float: right;*/
 }
 
-.woocommerce ul.products li.product {
-	max-width:22.2%;
+/*	max-width:22.2%;
 	margin: 0 2.8% 2.992em 0 !important;
-}
+}*/
 
 .reg-form {
 
@@ -42,55 +40,67 @@ Text Domain: wasserman-store
     height: auto;
 }*/
 ul#shipping_method li > label {
-	float: right;
+    float: right;
 }
-.menu-item-has-children > li > a span:after{
-	display: none;
+
+.menu-item-has-children > li > a span:after {
+    display: none;
 }
 
 #sidebar-controls {
-	display: block;
+    display: block;
 }
+
 #yith-wacp-popup .yith-wacp-content {
     margin: 15px;
     font-weight: 600;
     background: #F7F5EE;
     /* border: 1px inset; */
 }
+
 #yith-wacp-popup.open .yith-wacp-main {
-	background: #F7F5EE;
-	}
-#wp-live-chat{
-	/*right:15% !important;*/
+    background: #F7F5EE;
 }
+
+#wp-live-chat {
+    /*right:15% !important;*/
+}
+
 #yith-wacp-popup .yith-wacp-content .product-info p:before {
-	/*content:url('images/basket.png');*/
-	display: block;
-	    margin: 0 20px 10px 20px;
+    /*content:url('images/basket.png');*/
+    display: block;
+    margin: 0 20px 10px 20px;
     opacity: 1;
 }
+
 #yith-wacp-popup .yith-wacp-content .product-info p:hover {
     opacity: .7;
 }
+
 #yith-wacp-popup .yith-wacp-content {
-	opacity: 1;
+    opacity: 1;
 }
+
 #yith-wacp-popup .yith-wacp-content .product-info p:after {
-	content:" !";
+    content: " !";
 }
+
 #yith-wacp-popup.open .yith-wacp-main {
     opacity: .87;
 }
+
 #yith-wacp-popup .yith-wacp-content .product-info p {
 
     max-width: 330px;
     width: 100%;
     font-size: 18px;
 }
+
 #yith-wacp-popup .yith-wacp-content a.button {
-	font-size: 18px;
-	margin:5px;
+    font-size: 18px;
+    margin: 5px;
 }
+
 #yith-wacp-popup .yith-wacp-close {
     background: #FF7070;
     border: 1px dotted #000;
@@ -108,19 +118,20 @@ ul#shipping_method li > label {
 }
 
 #top-search {
-	display: none !important;
+    display: none !important;
 }
 
 .secured {
-	opacity: .7;
+    opacity: .7;
 }
 
 .secured:hover {
-	opacity: 1;
+    opacity: 1;
 }
+
 #top-menu ul li a {
-	font-size: 16px !important;
-	font-weight: 600;
+    font-size: 16px !important;
+    font-weight: 600;
 }
 
 .woocommerce .woocommerce-ordering select {
@@ -128,13 +139,14 @@ ul#shipping_method li > label {
 }
 
 .cross-sells {
-	clear:both;
-	width:100% !important;
+    clear: both;
+    width: 100% !important;
 }
 
 .search .postedon {
-	display: none;
+    display: none;
 }
+
 /* We use this media query to add styles to any device that supports media queries */
 @media only screen {
 
@@ -161,50 +173,66 @@ ul#shipping_method li > label {
  * Min-width 641px and max-width 1024px, use when QAing tablet-only issues
  */
 @media only screen and (max-width: 64em) {
-	.woocommerce ul.products li.product {
-		max-width: 45% !important;
-		width: 100% !important;
-		height:auto;
-	}
-	.woocommerce form.login,
-	.woocommerce form.register {
-	    max-width: 80%;
-	    width: 100%;
-	    height: auto;
-	}
+    .search-results #main article {
+        width: 45% !important;
+        height: auto;
+    }
+
+    .woocommerce form.login,
+    .woocommerce form.register {
+        max-width: 80%;
+        width: 100%;
+        height: auto;
+    }
+
+
 }
+
 /**
  * Foundation: Small.
  * Max-width 640px, mobile-only styles, use when QAing mobile issues
  */
 @media only screen and (max-width: 40em) {
-	.woocommerce ul.products li.product {
-		max-width: 98% !important;
-	    width: 100% !important;
-	}
-	#top-menu {
-		display: none;
-	}
-	#top-cart {
-		padding-top:0 !important;
-		top:0 !important;
-	}
-	ul#shipping_method li > label {
-		font-size: 12px;
-	}
-	#yith-wacp-popup.open .yith-wacp-main {
-	    max-width: 315px;
-	    width: 100%;
-	}
-	#yith-wacp-popup .yith-wacp-content .product-info p {
-		max-width: 315px;
-		width: 100%;
-	    font-size: 14px;
-	    margin:10px 0;
-	}
-	#yith-wacp-popup .yith-wacp-content a.button {
-		font-size: 14px;
-	}
+    /*	max-width: 98% !important;
+        width: 100% !important;
+    }
+    .search-results #main article {
+        max-width: 95% !important;
+        width: 100% !important;
+        height: auto;
+    }*/
+    .woocommerce .cart-collaterals .cross-sells ul.products li, .woocommerce-page .cart-collaterals .cross-sells ul.products li,
+    .woocommerce.single-product.collateral-product-columns-4 ul.products li.product, .woocommerce-page.single-product.collateral-product-columns-4 ul.products li.product, .woocommerce.single-product.collateral-product-columns-4 .upsells.products li.product, .woocommerce-page.single-product.collateral-product-columns-4 .upsells.products li.product {
+        width: 45.05% !important;
+    }
+    #top-menu {
+        display: none;
+    }
+
+    #top-cart {
+        padding-top: 0 !important;
+        top: 0 !important;
+    }
+
+    ul#shipping_method li > label {
+        font-size: 12px;
+    }
+
+    #yith-wacp-popup.open .yith-wacp-main {
+        max-width: 315px;
+        width: 100%;
+    }
+
+    #yith-wacp-popup .yith-wacp-content .product-info p {
+        max-width: 315px;
+        width: 100%;
+        font-size: 14px;
+        margin: 10px 0;
+    }
+
+    #yith-wacp-popup .yith-wacp-content a.button {
+        font-size: 14px;
+    }
 
 }
 
@@ -227,18 +255,21 @@ ul#shipping_method li > label {
 }
 
 @media (min-width: 250px) and (max-width: 991px) {
- 	#primary-mono {
- 		max-width: 100% !important;
- 		width: 100% !important;
- 		float:none !important;
- 	}
- 	#sidebar-controls {
-		display: none !important;
-	}
-	#wp-live-chat {
-    right: 35% !important;
+    #primary-mono {
+        max-width: 100% !important;
+        width: 100% !important;
+        float: none !important;
+    }
+
+    #sidebar-controls {
+        display: none !important;
+    }
+
+    #wp-live-chat {
+        right: 35% !important;
+    }
 }
-}
+
 /*
 .cart-collaterals .cross-sells {
 width: 100%;
@@ -262,3 +293,142 @@ clear: none;
 	float:right;
 }
 */
+
+.cart-collaterals .cart_totals, .woocommerce-page .cart-collaterals .cart_totals {
+    float: right;
+    width: 60%;
+}
+
+ul#shipping_method li {
+    border-bottom: 1px solid #777777;
+}
+
+.wass-pad {
+    padding: 2%;
+}
+
+/*@media screen and (max-width: 767px){
+	.woocommerce div.product .cross-sells ul.products li.product, .woocommerce div.product .cross-sells ul li.product, .woocommerce div.product .related ul.products li.product, .woocommerce div.product .related ul li.product, .woocommerce div.product .upsells.products ul.products li.product, .woocommerce div.product .upsells.products ul li.product {
+		width: 47% !important;
+	}
+}*/
+
+.woocommerce.single-product.collateral-product-columns-4 ul.products li.product, .woocommerce-page.single-product.collateral-product-columns-4 ul.products li.product, .woocommerce.single-product.collateral-product-columns-4 .upsells.products li.product, .woocommerce-page.single-product.collateral-product-columns-4 .upsells.products li.product {
+    width: 22.05% !important;
+}
+
+.woocommerce .cart-collaterals .cross-sells ul.products li, .woocommerce-page .cart-collaterals .cross-sells ul.products li {
+    width: 22.05%;
+}
+
+.search-results article.status-publish,
+.search-results header.entry-header,
+.search-results footer.entry-footer,
+.search-results div.entry-summary,
+.search-results h3.entry-title {
+    display: inline-block;
+}
+
+.search-results #main article:nth-of-type(5),
+.search-results #main article:nth-of-type(9),
+.search-results #main article:nth-of-type(13),
+.search-results #main article:nth-of-type(17),
+.search-results #main article:nth-of-type(21),
+.search-results #main article:nth-of-type(25),
+.search-results #main article:nth-of-type(29),
+.search-results #main article:nth-of-type(33),
+.search-results #main article:nth-of-type(37),
+.search-results #main article:nth-of-type(41),
+.search-results #main article:nth-of-type(45),
+.search-results #main article:nth-of-type(49) {
+    clear: both;
+}
+
+.search-results .page-header h1 {
+    font-weight: normal;
+
+}
+
+.search-results .page-header h1 span {
+    font-weight: bolder;
+    color: #42a1cd;
+
+}
+
+.search-results article .entry-meta {
+    font-size: 11px;
+}
+
+.search-results #main article {
+    width: 22.05%;
+    margin-right: 2%;
+    background: #f0ede0;
+    border: solid 1px #e7e1cb;
+    padding: 10px;
+    text-align: center;
+}
+
+.search-results article img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: solid 1px #e7e1cb;
+    -webkit-filter: brightness(0.95);
+    transition: .4s all ease;
+    -webkit-transition: .4s all ease;
+}
+
+.search-results #main article h4, .search-results #main article h4 a {
+    padding: 10px;
+    margin: 0;
+    font-size: 16px;
+    color: #666;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.search-results article span.price {
+    color: #42a1cd;
+    display: block;
+    font-weight: bold;
+    margin-bottom: .5em;
+    font-size: 14px;
+}
+
+.search-results #main article a.button:hover {
+    background: #42a1cd;
+    color: white;
+
+}
+
+.search-results #main article a.button {
+    margin-top: 10px;
+    background: #dfd6ba;
+    color: #6a6a6a;
+    padding: 8px 16px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+    transition: .4s all ease;
+    -webkit-transition: .4s all ease;
+    -moz-transition: .4s all ease;
+    -ms-transition: .4s all ease;
+    -o-transition: .4s all ease;
+    font-weight: 700;
+
+}
+
+.search-results a.button.single_add_to_cart_button {
+    margin-top: 5px;
+    background: #dfd6ba;
+    color: #6a6a6a;
+    padding: 8px 16px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+    transition: .4s all ease;
+    -webkit-transition: .4s all ease;
+}

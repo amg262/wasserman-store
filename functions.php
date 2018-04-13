@@ -5,6 +5,8 @@ add_action( 'wp_enqueue_scripts', 'wasserman_store_enqueue' );
 
 function wasserman_store_enqueue() {
 	wp_enqueue_style( 'wasserman-store-partent-style', get_template_directory_uri() . '/style.css' );
+
+	//wp_enqueue_script( 'wassjs',get_stylesheet_directory_uri().'/wass.js'  );
 }
 
 
@@ -161,6 +163,50 @@ function change_cross_sells_columns( $columns ) {
 	if ( get_field( 'cross_sells', 'option' ) ) {
 		return get_field( 'cross_sells', 'option' );
 	} else {
-	    return 2;
-    }
+		return 2;
+	}
 }
+
+//add_filter( 'woocommerce_output_related_products_args', 'wc_change_number_related_products' );
+
+
+add_filter( 'woocommerce_upsell_display_args', 'custom_woocommerce_upsell_display_args' );
+function custom_woocommerce_upsell_display_args( $args ) {
+
+	if ( get_field( 'upsells', 'option' ) ) {
+		$ups = get_field( 'upsells', 'option' );
+	} else {
+		$ups = 4;
+	}
+
+	if ( get_field( 'upsell_columns', 'option' ) ) {
+		$upc = get_field( 'upsell_columns', 'option' );
+	} else {
+		$upc = 4;
+	}
+
+	$args['posts_per_page'] = $ups;
+	$args['columns']        = $upc; //change number of upsells here
+
+	return $args;
+}
+
+function grid_search() {
+	if ( get_field( 'search_columns', 'option' ) ) {
+		$col = get_field( 'search_columns', 'option' );
+	} else {
+		$col = 4;
+	}
+
+	if ( $col == 3 ) {
+		$srt = 'col-md-4 col-sm-4 grid store_3_column wass-pad';
+	} elseif ( $col == 4 ) {
+		$srt = 'col-lg-3 col-md-3 col-sm-3 grid  wass-pad';
+	} else {
+		$srt = '';
+	}
+
+	return $srt;
+
+}
+
