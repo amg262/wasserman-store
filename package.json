@@ -4,7 +4,12 @@
   "description": "wasserman-store",
   "main": "wass.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "refresh": "npm update && npm rebuild && npm start",
+    "start": "npm update && npm install ",
+    "build": "gulp build",
+    "clean": "gulp clean",
+    "watch": "gulp serve",
+    "postinstall": "gulp clean"
   },
   "repository": {
     "type": "git",
