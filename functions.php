@@ -1,4 +1,5 @@
 <?php
+include_once( __DIR__ . '/functions-custom.php' );
 
 //Your awesome code could start here.
 add_action( 'wp_enqueue_scripts', 'wasserman_store_enqueue' );
@@ -24,18 +25,436 @@ function register_user_menu() {
 	//add_image_size('popup_thumb', 250, 250, false);
 }
 
-
-remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display' );
-//add_filter('woocommerce_after_cart_totals', 'woocommerce_cross_sell_display');
-//add_action( 'widgets_init', 'wasserman_store_widgets_init' );
-
 /**
  * Adding ACF options page
  */
 if ( function_exists( 'acf_add_options_page' ) ) {
 	acf_add_options_page();
+/*
+	if ( function_exists( 'acf_add_local_field_group' ) ):
+
+		acf_add_local_field_group( [
+			'key'                   => 'group_5ad37ea6ad1b8',
+			'title'                 => 'Product Options',
+			'fields'                => [
+				[
+					'key'               => 'field_5ad37ec184223',
+					'label'             => 'Related Products',
+					'name'              => 'related_products',
+					'type'              => 'post_object',
+					'instructions'      => '',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => [
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					],
+					'post_type'         => [
+						0 => 'product',
+					],
+					'taxonomy'          => [
+					],
+					'allow_null'        => 1,
+					'multiple'          => 1,
+					'return_format'     => 'object',
+					'ui'                => 1,
+				],
+				[
+					'key'               => 'field_5ad37ee184224',
+					'label'             => 'UpSell Products',
+					'name'              => 'upsell_products',
+					'type'              => 'post_object',
+					'instructions'      => '',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => [
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					],
+					'post_type'         => [
+						0 => 'product',
+					],
+					'taxonomy'          => [
+					],
+					'allow_null'        => 1,
+					'multiple'          => 1,
+					'return_format'     => 'object',
+					'ui'                => 1,
+				],
+				[
+					'key'               => 'field_5ad37efe84225',
+					'label'             => 'CrossSell Products',
+					'name'              => 'crosssell_products',
+					'type'              => 'post_object',
+					'instructions'      => '',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => [
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					],
+					'post_type'         => [
+						0 => 'product',
+					],
+					'taxonomy'          => [
+					],
+					'allow_null'        => 1,
+					'multiple'          => 1,
+					'return_format'     => 'object',
+					'ui'                => 1,
+				],
+				[
+					'key'               => 'field_5ad37ff4e827c',
+					'label'             => 'Product Order',
+					'name'              => 'product_order',
+					'type'              => 'text',
+					'instructions'      => '',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => [
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					],
+					'default_value'     => '',
+					'placeholder'       => '',
+					'prepend'           => '',
+					'append'            => '',
+					'maxlength'         => '',
+				],
+			],
+			'location'              => [
+				[
+					[
+						'param'    => 'post_type',
+						'operator' => '==',
+						'value'    => 'product',
+					],
+				],
+			],
+			'menu_order'            => 0,
+			'position'              => 'normal',
+			'style'                 => 'default',
+			'label_placement'       => 'top',
+			'instruction_placement' => 'label',
+			'hide_on_screen'        => '',
+			'active'                => 1,
+			'description'           => '',
+		] );
+
+	endif;
+
+	if ( function_exists( 'acf_add_local_field_group' ) ):
+
+		acf_add_local_field_group( [
+			'key'                   => 'group_57e597585c8d3',
+			'title'                 => 'Checkout Options',
+			'fields'                => [
+				[
+					'key'               => 'field_5acce8f15e780',
+					'label'             => 'Display',
+					'name'              => '',
+					'type'              => 'tab',
+					'instructions'      => '',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => [
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					],
+					'placement'         => 'top',
+					'endpoint'          => 0,
+				],
+				[
+					'key'               => 'field_5acce830012bf',
+					'label'             => 'Cross-Sells Columns',
+					'name'              => 'cross_sells',
+					'type'              => 'number',
+					'instructions'      => 'Set number of columns to display cross-sell products on Checkout / Cart pages. (2 - 4)',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => [
+						'width' => '55',
+						'class' => '',
+						'id'    => '',
+					],
+					'default_value'     => 2,
+					'placeholder'       => '',
+					'prepend'           => '',
+					'append'            => '',
+					'min'               => 2,
+					'max'               => 4,
+					'step'              => 1,
+				],
+				[
+					'key'               => 'field_5accf7d0b5024',
+					'label'             => 'Upsells Total',
+					'name'              => 'upsells',
+					'type'              => 'number',
+					'instructions'      => 'Maxiumum number of upsells shown at the bottom of a products page. (1 - 24)',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => [
+						'width' => '55',
+						'class' => '',
+						'id'    => '',
+					],
+					'default_value'     => 8,
+					'placeholder'       => '',
+					'prepend'           => '',
+					'append'            => '',
+					'min'               => 1,
+					'max'               => 24,
+					'step'              => 1,
+				],
+				[
+					'key'               => 'field_5accf839b5025',
+					'label'             => 'Upsell Columns',
+					'name'              => 'upsell_columns',
+					'type'              => 'number',
+					'instructions'      => 'Number of columns to display upsell products (2 - 4)',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => [
+						'width' => '55',
+						'class' => '',
+						'id'    => '',
+					],
+					'default_value'     => 4,
+					'placeholder'       => '',
+					'prepend'           => '',
+					'append'            => '',
+					'min'               => 1,
+					'max'               => 4,
+					'step'              => 1,
+				],
+				[
+					'key'               => 'field_5acce852f8c32',
+					'label'             => 'Search Columns',
+					'name'              => 'search_columns',
+					'type'              => 'number',
+					'instructions'      => 'Number of columns used in grid layout of search results page. (2 - 4)',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => [
+						'width' => '55',
+						'class' => '',
+						'id'    => '',
+					],
+					'default_value'     => 3,
+					'placeholder'       => '',
+					'prepend'           => '',
+					'append'            => '',
+					'min'               => 3,
+					'max'               => 4,
+					'step'              => 1,
+				],
+				[
+					'key'               => 'field_57e583d43d478',
+					'label'             => 'Checkout Notices',
+					'name'              => 'checkout_notices',
+					'type'              => 'repeater',
+					'instructions'      => 'Enter rows you want to display as individual notice on checkout page.',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => [
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					],
+					'collapsed'         => '',
+					'min'               => 0,
+					'max'               => 0,
+					'layout'            => 'block',
+					'button_label'      => 'Add Row',
+					'sub_fields'        => [
+						[
+							'key'               => 'field_57e587f616c0c',
+							'label'             => 'Text',
+							'name'              => 'text',
+							'type'              => 'wysiwyg',
+							'instructions'      => 'Text to be displayed in notice',
+							'required'          => 0,
+							'conditional_logic' => 0,
+							'wrapper'           => [
+								'width' => '',
+								'class' => '',
+								'id'    => '',
+							],
+							'default_value'     => '',
+							'tabs'              => 'all',
+							'toolbar'           => 'full',
+							'media_upload'      => 1,
+							'delay'             => 0,
+						],
+					],
+				],
+				[
+					'key'               => 'field_582e333496577',
+					'label'             => 'Shipping Notices',
+					'name'              => 'shipping_notices',
+					'type'              => 'wysiwyg',
+					'instructions'      => 'Text that will be shown regarding shipping info',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => [
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					],
+					'default_value'     => '',
+					'tabs'              => 'all',
+					'toolbar'           => 'full',
+					'media_upload'      => 1,
+					'delay'             => 0,
+				],
+				[
+					'key'               => 'field_5acce973d906a',
+					'label'             => 'Admin Notices',
+					'name'              => '',
+					'type'              => 'tab',
+					'instructions'      => '',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => [
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					],
+					'placement'         => 'top',
+					'endpoint'          => 0,
+				],
+				[
+					'key'               => 'field_5a24f44d11602',
+					'label'             => 'Hide Elements',
+					'name'              => 'hide_elements',
+					'type'              => 'repeater',
+					'instructions'      => 'Field group used to select and hide bothersome dashboard notifications',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => [
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					],
+					'collapsed'         => 'field_5a24f46a11603',
+					'min'               => 0,
+					'max'               => 0,
+					'layout'            => 'block',
+					'button_label'      => 'Add Element',
+					'sub_fields'        => [
+						[
+							'key'               => 'field_5a24f46a11603',
+							'label'             => 'Selector',
+							'name'              => 'selector',
+							'type'              => 'textarea',
+							'instructions'      => '',
+							'required'          => 1,
+							'conditional_logic' => 0,
+							'wrapper'           => [
+								'width' => '',
+								'class' => '',
+								'id'    => '',
+							],
+							'default_value'     => '',
+							'placeholder'       => '#id_of_element .class_of_element > .sub_select',
+							'maxlength'         => '',
+							'rows'              => 4,
+							'new_lines'         => 'br',
+						],
+						[
+							'key'               => 'field_5a24f72166787',
+							'label'             => 'Property',
+							'name'              => 'property',
+							'type'              => 'text',
+							'instructions'      => '',
+							'required'          => 1,
+							'conditional_logic' => 0,
+							'wrapper'           => [
+								'width' => '',
+								'class' => '',
+								'id'    => '',
+							],
+							'default_value'     => 'display',
+							'placeholder'       => 'display',
+							'prepend'           => '',
+							'append'            => '',
+							'maxlength'         => '',
+						],
+						[
+							'key'               => 'field_5a24f6d566786',
+							'label'             => 'Value',
+							'name'              => 'value',
+							'type'              => 'text',
+							'instructions'      => '',
+							'required'          => 1,
+							'conditional_logic' => 0,
+							'wrapper'           => [
+								'width' => '',
+								'class' => '',
+								'id'    => '',
+							],
+							'default_value'     => 'none',
+							'placeholder'       => 'none',
+							'prepend'           => '',
+							'append'            => '',
+							'maxlength'         => '',
+						],
+						[
+							'key'               => 'field_5a24f7dc6a81a',
+							'label'             => 'Active',
+							'name'              => 'active',
+							'type'              => 'true_false',
+							'instructions'      => '',
+							'required'          => 0,
+							'conditional_logic' => 0,
+							'wrapper'           => [
+								'width' => '',
+								'class' => '',
+								'id'    => '',
+							],
+							'message'           => '',
+							'default_value'     => 1,
+							'ui'                => 1,
+							'ui_on_text'        => 'On',
+							'ui_off_text'       => 'Off',
+						],
+					],
+				],
+			],
+			'location'              => [
+				[
+					[
+						'param'    => 'options_page',
+						'operator' => '==',
+						'value'    => 'acf-options',
+					],
+				],
+			],
+			'menu_order'            => 0,
+			'position'              => 'normal',
+			'style'                 => 'default',
+			'label_placement'       => 'left',
+			'instruction_placement' => 'field',
+			'hide_on_screen'        => '',
+			'active'                => 1,
+			'description'           => '',
+		] );
+
+	endif;
+*/
 }
 add_action( 'woocommerce_before_checkout_form', 'wsu_add_checkout_content', 12 );
+
+
+remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display' );
+//add_filter('woocommerce_after_cart_totals', 'woocommerce_cross_sell_display');
+//add_action( 'widgets_init', 'wasserman_store_widgets_init' );
+
 
 /**
  *
@@ -249,6 +668,9 @@ function grid_search() {
 
 }
 
+/**
+ *
+ */
 function get_prod_acfs() {
 
 	$id = '7427';
@@ -270,12 +692,15 @@ function get_prod_acfs() {
 
 }
 
+/**
+ *
+ */
 function replay_upsells() {
 
 	global $product;
 	$upsells    = $product->get_upsells();
 	$cross_args = [];
-	$args = ['post_type'=>'product','posts_per_page' => - 1];
+	$args       = [ 'post_type' => 'product', 'posts_per_page' => - 1 ];
 	$cross      = $product->get_cross_sells();
 
 
@@ -287,9 +712,9 @@ function replay_upsells() {
 
 	if ( count( $cross ) > 0 ) {
 		//update_field( 'crosssell_products', $upsells );
-        
+
 		foreach ( $cross as $id ) {
-		    array_push($cross_args, get_post($id));
+			array_push( $cross_args, get_post( $id ) );
 		}
 
 		update_field( 'crosssell_products', $cross_args );
@@ -307,6 +732,9 @@ remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_r
 // Remove up sells from after single product hook
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
 
+/**
+ *
+ */
 function yourthemename_upsell_related_cross() {
 	if ( is_cart() ) {
 		woocommerce_cross_sell_display();
@@ -322,3 +750,4 @@ function yourthemename_upsell_related_cross() {
 }
 
 add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 20 );
+
