@@ -3,6 +3,9 @@
 //Your awesome code could start here.
 add_action( 'wp_enqueue_scripts', 'wasserman_store_enqueue' );
 
+/**
+ *
+ */
 function wasserman_store_enqueue() {
 	wp_enqueue_style( 'wasserman-store-partent-style', get_template_directory_uri() . '/style.css' );
 
@@ -13,6 +16,9 @@ function wasserman_store_enqueue() {
 add_action( 'after_setup_theme', 'register_user_menu' );
 //add_action( 'after_setup_theme', 'register_user_menu' );
 
+/**
+ *
+ */
 function register_user_menu() {
 	register_nav_menu( 'primary-user', __( 'Logged In Menu', 'wasserman-store' ) );
 	//add_image_size('popup_thumb', 250, 250, false);
@@ -31,6 +37,9 @@ if ( function_exists( 'acf_add_options_page' ) ) {
 }
 add_action( 'woocommerce_before_checkout_form', 'wsu_add_checkout_content', 12 );
 
+/**
+ *
+ */
 function wsu_add_checkout_content() {
 
 	//echo 'hi';
@@ -52,6 +61,12 @@ function wsu_add_checkout_content() {
  **/
 add_filter( 'woocommerce_variable_price_html', 'display_lowest_range_prie', 10, 2 );
 
+/**
+ * @param $price
+ * @param $product
+ *
+ * @return string
+ */
 function display_lowest_range_prie( $price, $product ) {
 
 	$price = '';
@@ -82,6 +97,11 @@ function register_preorder_idle_order_status() {
 add_action( 'init', 'register_preorder_idle_order_status' );
 
 // Add to list of WC Order statuses
+/**
+ * @param $order_statuses
+ *
+ * @return array
+ */
 function add_preorder_idle_to_order_statuses( $order_statuses ) {
 
 	$new_order_statuses = [];
@@ -104,6 +124,9 @@ add_filter( 'wc_order_statuses', 'add_preorder_idle_to_order_statuses' );
 add_filter( 'woocommerce_cart_no_shipping_available_html', 'wm_change_noship_message' );
 add_filter( 'woocommerce_no_shipping_available_html', 'wm_change_noship_message' );
 
+/**
+ *
+ */
 function wm_change_noship_message() {
 
 	if ( get_field( 'shipping_notices', 'option' ) ) {
@@ -115,6 +138,9 @@ function wm_change_noship_message() {
 
 add_action( 'admin_footer', 'wm_hide_elements' );
 
+/**
+ *
+ */
 function wm_hide_elements() {
 	$slides = [];
 	$html   = '';
@@ -158,6 +184,11 @@ function wm_hide_elements() {
 
 add_filter( 'woocommerce_cross_sells_columns', 'change_cross_sells_columns' );
 
+/**
+ * @param $columns
+ *
+ * @return int|mixed|null|void
+ */
 function change_cross_sells_columns( $columns ) {
 
 	if ( get_field( 'cross_sells', 'option' ) ) {
@@ -171,6 +202,11 @@ function change_cross_sells_columns( $columns ) {
 
 
 add_filter( 'woocommerce_upsell_display_args', 'custom_woocommerce_upsell_display_args' );
+/**
+ * @param $args
+ *
+ * @return mixed
+ */
 function custom_woocommerce_upsell_display_args( $args ) {
 
 	if ( get_field( 'upsells', 'option' ) ) {
@@ -191,6 +227,9 @@ function custom_woocommerce_upsell_display_args( $args ) {
 	return $args;
 }
 
+/**
+ * @return string
+ */
 function grid_search() {
 	if ( get_field( 'search_columns', 'option' ) ) {
 		$col = get_field( 'search_columns', 'option' );
@@ -210,3 +249,63 @@ function grid_search() {
 
 }
 
+function get_prod_acfs() {
+
+	$id = '7427';
+
+	$args = [ 'post_type' => 'product', 'posts_per_page' => - 1 ];
+
+	$p     = null;
+	$posts = get_posts( $args );
+
+	foreach ( $posts as $prod ) {
+		if ($prod->ID == $id){
+		    echo 'hey';
+		    $p = $prod;
+        }
+	}
+
+	echo 'hi';
+	//var_dump($p);
+
+}
+function replay_upsells() {
+
+	global $product;
+	$upsells = $product->get_upsells();
+
+    $related = get_field('related_products');
+
+    if (count($upsells) > 0) {
+        echo 'yoyo';
+        update_field('related_products',$upsells);
+    }
+
+	$related = get_field('related_products');
+    var_dump($related);
+
+
+    $product->get_crosssells();
+    //if (get_field())
+}
+//add_action( 'admin_init', 'get_prod_acfs' );
+
+// Remove related products from after single product hook
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
+// Remove up sells from after single product hook
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
+
+function yourthemename_upsell_related_cross() {
+	if ( is_cart() ) {
+		woocommerce_cross_sell_display();
+	} elseif ( ! ( is_checkout() || is_front_page() || is_shop() || is_product_category() || is_product_tag() ) ) {
+		global $product;
+		$upsells = $product->get_upsells();
+		if ( count( $upsells) > 0 ) {
+			woocommerce_upsell_display( 4,4 );
+		} else {
+			woocommerce_output_related_products();
+		}
+	}
+}
+add_action( 'woocommerce_after_single_product_summary', 'replay_upsells',  20 );
