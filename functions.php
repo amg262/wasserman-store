@@ -259,35 +259,47 @@ function get_prod_acfs() {
 	$posts = get_posts( $args );
 
 	foreach ( $posts as $prod ) {
-		if ($prod->ID == $id){
-		    echo 'hey';
-		    $p = $prod;
-        }
+		if ( $prod->ID == $id ) {
+			echo 'hey';
+			$p = $prod;
+		}
 	}
 
 	echo 'hi';
 	//var_dump($p);
 
 }
+
 function replay_upsells() {
 
 	global $product;
-	$upsells = $product->get_upsells();
-
-    $related = get_field('related_products');
-
-    if (count($upsells) > 0) {
-        echo 'yoyo';
-        update_field('related_products',$upsells);
-    }
-
-	$related = get_field('related_products');
-    var_dump($related);
+	$upsells    = $product->get_upsells();
+	$cross_args = [];
+	$args = ['post_type'=>'product','posts_per_page' => - 1];
+	$cross      = $product->get_cross_sells();
 
 
-    $product->get_crosssells();
-    //if (get_field())
+	$related = get_field( 'related_products' );
+
+	if ( count( $upsells ) > 0 ) {
+		update_field( 'upsell_products', $upsells );
+	}
+
+	if ( count( $cross ) > 0 ) {
+		//update_field( 'crosssell_products', $upsells );
+        
+		foreach ( $cross as $id ) {
+		    array_push($cross_args, get_post($id));
+		}
+
+		update_field( 'crosssell_products', $cross_args );
+	}
+
+	var_dump( $cross_args );
+	//var_dump(get_field('crosssell_products'));
+	//if (get_field())
 }
+
 //add_action( 'admin_init', 'get_prod_acfs' );
 
 // Remove related products from after single product hook
@@ -301,11 +313,12 @@ function yourthemename_upsell_related_cross() {
 	} elseif ( ! ( is_checkout() || is_front_page() || is_shop() || is_product_category() || is_product_tag() ) ) {
 		global $product;
 		$upsells = $product->get_upsells();
-		if ( count( $upsells) > 0 ) {
-			woocommerce_upsell_display( 4,4 );
+		if ( count( $upsells ) > 0 ) {
+			woocommerce_upsell_display( 4, 4 );
 		} else {
 			woocommerce_output_related_products();
 		}
 	}
 }
-add_action( 'woocommerce_after_single_product_summary', 'replay_upsells',  20 );
+
+add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 20 );
