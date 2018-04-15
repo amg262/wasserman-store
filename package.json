@@ -1,0 +1,39 @@
+{
+  "name": "wasserman-store",
+  "version": "1.0.0",
+  "description": "wasserman-store",
+  "main": "wass.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amg262/wasserman-store.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amg262/wasserman-store/issues"
+  },
+  "homepage": "https://githnpub.com/amg262/wasserman-store#readme",
+  "dependencies": {
+    "browser-sync": "^2.18.8",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-file": "^0.3.0",
+    "gulp-imagemin": "^3.2.0",
+    "gulp-postcss": "^6.3.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.1",
+    "gulp-unzip": "^0.2.0",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^4.3.11",
+    "gulp-zip": "^4.0.0",
+    "node-gyp": "^3.6.1",
+    "wpapi": "^1.0.2"
+  },
+  "devDependencies": {}
+}

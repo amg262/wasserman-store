@@ -1,8 +1,14 @@
 /*
+ * Copyright (c) 2018.
+ * github.com/amg262
+ * andrewmgunn26@gmail.com
+ */
+
+/*
 Theme Name: Wasserman Store
 Theme URI: https://github.com/amg262/wasserman-store
 Description: Wasserman Medical Store
-Version: 2.1
+Version: 2.2
 Author: Wasserman Medical
 Author URI: http://wasserman-medical.com
 Template: store
@@ -185,7 +191,6 @@ ul#shipping_method li > label {
         height: auto;
     }
 
-
 }
 
 /**
@@ -205,6 +210,7 @@ ul#shipping_method li > label {
     .woocommerce.single-product.collateral-product-columns-4 ul.products li.product, .woocommerce-page.single-product.collateral-product-columns-4 ul.products li.product, .woocommerce.single-product.collateral-product-columns-4 .upsells.products li.product, .woocommerce-page.single-product.collateral-product-columns-4 .upsells.products li.product {
         width: 45.05% !important;
     }
+
     #top-menu {
         display: none;
     }
