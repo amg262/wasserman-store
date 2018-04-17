@@ -282,17 +282,19 @@ function replay_upsells() {
 	//$product=  WC_Product();
 
 	//$prod       = new WC_Product( $product->ID );
-	$cross_sells = $product->get_cross_sells();
-	$upsells     = $product->get_upsells();
-	$upsell_cf   = get_field( 'upsell_products' );
-	$cross_cf    = get_field( 'crosssell_products' );
-	$cross_args  = [];
-	$cs          = [];
-	$us          = [];
-	$up_args     = [];
-	$up_ids      = [];
-	$cs_ids      = [];
-	$ucf         = [];
+	$cross_sells  = $product->get_cross_sells();
+	$upsells      = $product->get_upsells();
+	$upsell_cf    = get_field( 'upsell_products' );
+	$cross_cf     = get_field( 'crosssell_products' );
+	$is_upsell    = get_field( 'upsell_active' );
+	$is_cross     = get_field( 'crosssell_active' );
+	$cross_args   = [];
+	$cs           = [];
+	$us           = [];
+	$upsell_posts = [];
+	$upsell_ids   = [];
+	$cs_ids       = [];
+	$ucf          = [];
 
 
 	//var_dump( $prod );
@@ -301,29 +303,39 @@ function replay_upsells() {
 
 	//var_dump($upsells);
 	//var_dump($upsell_cf);
+	if ( $is_upsell == true ) {
+
+	}
 	if ( count( $upsells ) > 0 ) {
 
 		foreach ( $upsells as $id ) {
-			array_push( $up_args, get_post( $id ) );
-			array_push( $up_ids, $id );
-		}
-		if ( ( $upsells !== $up_ids ) ) {
-			//update_field( 'upsell_products', $up_args );
+			array_push( $upsell_posts, get_post( $id ) );
+			array_push( $upsell_ids, $id );
 		}
 
-		foreach ( $upsell_cf as $cf ) {
-			array_push( $ucf, $cf->ID );
+		if ( ( ! get_field( 'upsell_products' ) ) ||
+		     ( ( get_field( 'upsell_active' ) == false &&
+		         get_field( 'upsell_products' ) != $upsell_posts ) ) ) {
+
+			update_field( 'upsell_products', $upsell_posts );
+			$product->set_upsell_ids( $upsell_ids );
+
+		} elseif ( ( count( get_field( 'upsell_products' ) ) > 0 ) && get_field( 'upsell_active' ) == true ) {
+
+			foreach ( get_field( 'upsell_products' ) as $cf ) {
+				array_push( $ucf, $cf->ID );
+			}
+			$product->set_upsell_ids( $ucf );
 		}
 
-		$product->set_upsell_ids( $ucf );
 		//_update_post([$product->ID]);
-		wp_set_object_terms($product->ID, $ucf, '_crosssell_ids');
-		update_post_meta($product->ID, '_crossell_ids', $ucf);
+		//wp_set_object_terms($product->ID, $ucf, '_crosssell_ids');
+		//update_post_meta($product->ID, '_crossell_ids', $ucf);
 
 	}
 
 	var_dump( $product->get_upsell_ids() );
-	var_dump( $cs_ids );
+	/*var_dump( $cs_ids );
 
 
 	if ( count( $cross_sells ) > 0 ) {
@@ -341,7 +353,7 @@ function replay_upsells() {
 	}
 
 	var_dump( $product->get_cross_sell_ids() );
-	var_dump( $cs_ids );
+	var_dump( $cs_ids );*/
 
 }
 
