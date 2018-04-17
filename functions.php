@@ -292,7 +292,7 @@ function replay_upsells() {
 	$up_args     = [];
 	$up_ids      = [];
 	$cs_ids      = [];
-	$ucf = [];
+	$ucf         = [];
 
 
 	//var_dump( $prod );
@@ -311,11 +311,14 @@ function replay_upsells() {
 			//update_field( 'upsell_products', $up_args );
 		}
 
-		foreach($upsell_cf as $cf) {
-		    array_push($ucf, $cf->ID);
-        }
+		foreach ( $upsell_cf as $cf ) {
+			array_push( $ucf, $cf->ID );
+		}
 
 		$product->set_upsell_ids( $ucf );
+		//_update_post([$product->ID]);
+		wp_set_object_terms($product->ID, $ucf, '_crosssell_ids');
+		update_post_meta($product->ID, '_crossell_ids', $ucf);
 
 	}
 
@@ -412,9 +415,9 @@ function product_column_custom( $column, $postid ) {
 		echo $p->menu_order;
 		//echo get_post_meta( $postid, 'menu_order', true );
 	}
-	if ( $column == 'price' ) {
+	if ( $column == 'custom_order' ) {
 		//echo $p->get_price();
-		//echo get_post_meta( $postid, 'sku', true );
+		echo get_post_meta( $postid, 'custom_order', true );
 	}
 }
 
@@ -431,9 +434,10 @@ function product_column_register_sortable( $columns ) {
 		if ( $c == 'menu_order' ) {
 			$columns['menu_order'] = 'Menu Order';
 		}
+		if ( $c == 'custom_order' ) {
+			$columns['custom_order'] = 'Order';
+		}
 	}
-
-	var_dump( $cb );
 
 	return $columns;
 }
