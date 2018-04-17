@@ -270,22 +270,19 @@ function get_prod_acfs() {
 		}
 	}
 
-	echo 'hi';
-	//var_dump($p);
 
 }
 
 
 //add_action( 'admin_init', 'replace_sells' );
-/**
- *
- */
+
 function replay_upsells() {
 
 	global $product;
 	$cross      = $product->get_cross_sells();
 	$upsells    = $product->get_upsells();
-	$cross_args = [];$c = [];
+	$cross_args = [];
+	$c          = [];
 	$up_args    = [];
 
 
@@ -294,7 +291,7 @@ function replay_upsells() {
 
 			foreach ( $upsells as $id ) {
 				array_push( $up_args, get_post( $id ) );
-				array_push($c,$id);
+				array_push( $c, $id );
 			}
 			update_field( 'upsell_products', $up_args );
 		}
@@ -311,95 +308,10 @@ function replay_upsells() {
 			update_field( 'crosssell_products', $cross_args );
 		}
 	}
-
-
-	var_dump($product->menu_order);
-
-
-}
-//add_filter( 'manage_edit-product_columns', 'change_columns_filter',10, 1 );
-function change_columns_filter( $columns ) {
-	unset($columns['product_tag']);
-	unset($columns['sku']);
-	unset($columns['featured']);
-	unset($columns['product_type']);
-	return $columns;
+	//var_dump( $product->menu_order );
 }
 
-//add_filter( 'manage_edit-product_columns', 'show_product_order',15 );
-function show_product_order($columns){
-
-	//remove column
-	unset( $columns['tags'] );
-
-	//add column
-	$columns['menu_order'] = __( 'Menu Order');
-
-	return $columns;
-}
-
-add_action( 'manage_product_posts_custom_column', 'wpso23858236_product_column_offercode', 10, 2 );
-
-function wpso23858236_product_column_offercode( $column, $postid ) {
-
-    $p = new WC_Product($postid);
-	if ( $column == 'menu_order' ) {
-
-	    echo $p->menu_order;
-		//echo get_post_meta( $postid, 'menu_order', true );
-	}
-	if ($column == 'sku') {
-		//echo get_post_meta( $postid, 'sku', true );
-    }
-}
-/**
- * make column sortable
- */
-function order_column_register_sortable($columns){
-	unset($columns['featured']);
-	$columns['menu_order'] = 'menu_order';
-	return $columns;
-}
-add_filter( 'manage_edit-product_columns', 'order_column_register_sortable',10, 1 );
-add_filter('manage_edit-product_sortable_columns','order_column_register_sortable',15);
-
-/**
- * add order column to admin listing screen for header text
- */
-function add_new_header_text_column($header_text_columns) {
-	$header_text_columns['menu_order'] = "Order";
-	return $header_text_columns;
-}
-//add_action('manage_edit-header_text_columns', 'add_new_header_text_column');
-
-/**
- * show custom order column values
- */
-function show_order_column($name){
-	global $post;
-
-	switch ($name) {
-		case 'menu_order':
-			$order = $post->menu_order;
-			echo $order;
-			break;
-		default:
-			break;
-	}
-}
-//add_action('manage_header_text_posts_custom_column','show_order_column');
-
-/**
- * make column sortable
- */
-function eaorder_column_register_sortable($columns){
-	unset($columns['featured']);
-	$columns['menu_order'] = 'menu_order';
-	return $columns;
-}
 //add_filter('manage_edit-header_text_sortable_columns','order_column_register_sortable');
-
-//add_action( 'admin_init', 'replay_upsells' );
 
 // Remove related products from after single product hook
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
@@ -424,4 +336,66 @@ function yourthemename_upsell_related_cross() {
 }
 
 add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 20 );
+
+
+//add_filter( 'manage_edit-product_columns', 'change_columns_filter',10, 1 );
+function change_columns_filter( $columns ) {
+	unset( $columns['product_tag'] );
+	unset( $columns['sku'] );
+	unset( $columns['featured'] );
+	unset( $columns['product_type'] );
+
+	return $columns;
+}
+
+//add_filter( 'manage_edit-product_columns', 'show_product_order',15 );
+function show_product_order( $columns ) {
+
+	//remove column
+	unset( $columns['tags'] );
+
+	//add column
+	$columns['menu_order'] = __( 'Menu Order' );
+
+	return $columns;
+}
+
+add_action( 'manage_product_posts_custom_column', 'product_column_custom', 10, 2 );
+
+function product_column_custom( $column, $postid ) {
+
+	$p = new WC_Product( $postid );
+	if ( $column == 'menu_order' ) {
+
+		echo $p->menu_order;
+		//echo get_post_meta( $postid, 'menu_order', true );
+	}
+	if ( $column == 'price' ) {
+		//echo $p->get_price();
+		//echo get_post_meta( $postid, 'sku', true );
+	}
+}
+
+/**
+ * make column sortable
+ */
+function product_column_register_sortable( $columns ) {
+	unset( $columns['featured'] );
+	//unset( $columns['product_tag'] );
+	$columns['menu_order'] = 'Menu Order';
+	//$columns['price']      = 'Price';
+
+	$col = [];
+	//array_unshift( $columns, $columns['menu_order'] );
+
+	var_dump($columns);
+	return $columns;
+}
+
+add_filter( 'manage_edit-product_columns', 'product_column_register_sortable', 10, 1 );
+add_filter( 'manage_edit-product_sortable_columns', 'product_column_register_sortable', 15 );
+
+
+
+
 
