@@ -279,6 +279,9 @@ function get_prod_acfs() {
 function replay_upsells() {
 
 	global $product;
+	//$product=  WC_Product();
+
+	//$prod       = new WC_Product( $product->ID );
 	$cross      = $product->get_cross_sells();
 	$upsells    = $product->get_upsells();
 	$cross_args = [];
@@ -286,16 +289,27 @@ function replay_upsells() {
 	$up_args    = [];
 
 
-	if ( ! get_field( 'upsell_products' ) ) {
-		if ( count( $upsells ) > 0 ) {
+	//var_dump( $prod );
+	//if ( ! get_field( 'upsell_products' ) ) {
+	if ( count( $upsells ) > 0 ) {
 
-			foreach ( $upsells as $id ) {
-				array_push( $up_args, get_post( $id ) );
-				array_push( $c, $id );
-			}
-			update_field( 'upsell_products', $up_args );
+		foreach ( $upsells as $id ) {
+			array_push( $up_args, get_post( $id ) );
+			//array_push( $c, $id );
 		}
+
+		//update_field( 'upsell_products', $up_args );
 	}
+	//}
+
+	$f = get_field( 'upsell_products' );
+	//var_dump( $f );
+	foreach ( $f as $a ) {
+		array_push( $c, $a->ID );
+	}
+
+	var_dump( $c );
+	$product->set_upsell_ids( $c );
 
 	if ( ! get_field( 'crosssell_products' ) ) {
 		if ( count( $cross ) > 0 ) {
@@ -308,7 +322,7 @@ function replay_upsells() {
 			update_field( 'crosssell_products', $cross_args );
 		}
 	}
-	//var_dump( $product->menu_order );
+	var_dump( $product->get_upsell_ids() );
 }
 
 //add_filter('manage_edit-header_text_sortable_columns','order_column_register_sortable');
@@ -336,7 +350,7 @@ function yourthemename_upsell_related_cross() {
 }
 
 add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 20 );
-
+add_action( 'woocommerce_after_single_product_summary', 'yourthemename_upsell_related_cross', 20 );
 
 //add_filter( 'manage_edit-product_columns', 'change_columns_filter',10, 1 );
 function change_columns_filter( $columns ) {
@@ -365,6 +379,7 @@ add_action( 'manage_product_posts_custom_column', 'product_column_custom', 10, 2
 function product_column_custom( $column, $postid ) {
 
 	$p = new WC_Product( $postid );
+
 	if ( $column == 'menu_order' ) {
 
 		echo $p->menu_order;
@@ -388,7 +403,8 @@ function product_column_register_sortable( $columns ) {
 	$col = [];
 	//array_unshift( $columns, $columns['menu_order'] );
 
-	var_dump($columns);
+	var_dump( $columns );
+
 	return $columns;
 }
 
