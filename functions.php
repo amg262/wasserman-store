@@ -275,43 +275,46 @@ function get_prod_acfs() {
 
 }
 
+
+//add_action( 'admin_init', 'replace_sells' );
 /**
  *
  */
 function replay_upsells() {
 
 	global $product;
-	$upsells    = $product->get_upsells();
-	$cross_args = [];
-	$up_args    = [];
-	$args       = [ 'post_type' => 'product', 'posts_per_page' => - 1 ];
 	$cross      = $product->get_cross_sells();
+	$upsells    = $product->get_upsells();
+	$cross_args = [];$c = [];
+	$up_args    = [];
 
 
-	$related = get_field( 'related_products' );
+	if ( ! get_field( 'upsell_products' ) ) {
+		if ( count( $upsells ) > 0 ) {
 
-	//var_dump( $upsells );
-	if ( count( $upsells ) > 0 ) {
-
-		foreach ( $upsells as $id ) {
-			array_push( $up_args, get_post( $id ) );
+			foreach ( $upsells as $id ) {
+				array_push( $up_args, get_post( $id ) );
+				array_push($c,$id);
+			}
+			update_field( 'upsell_products', $up_args );
 		}
-		update_field( 'upsell_products', $up_args );
 	}
 
-	if ( count( $cross ) > 0 ) {
-		//update_field( 'crosssell_products', $upsells );
+	if ( ! get_field( 'crosssell_products' ) ) {
+		if ( count( $cross ) > 0 ) {
 
-		foreach ( $cross as $id ) {
-			array_push( $cross_args, get_post( $id ) );
+			foreach ( $cross as $id ) {
+				array_push( $cross_args, get_post( $id ) );
+
+			}
+
+			update_field( 'crosssell_products', $cross_args );
 		}
-
-		update_field( 'crosssell_products', $cross_args );
 	}
 
-	//var_dump( $cross_args );
-	var_dump(get_field('crosssell_products'));
-	//if (get_field())
+
+
+
 }
 
 //add_action( 'admin_init', 'replay_upsells' );
