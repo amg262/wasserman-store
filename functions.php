@@ -282,6 +282,7 @@ function yourthemename_upsell_related_cross() {
 }
 
 add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
+
 //add_action( 'woocommerce_after_single_product_summary', 'yourthemename_upsell_related_cross', 20 );
 
 
@@ -318,8 +319,42 @@ function replay_upsells() {
 		$product->set_upsell_ids( $upsell_display );
 		$product->save();
 	}
+	
 }
 
+
+/**
+ *
+ */
+function replay_cross_sells() {
+
+	global $product;
+	$cross_sells        = $product->get_cross_sells();
+	$cross_sell_posts   = [];
+	$cross_ids          = [];
+	$cross_sell_display = [];
+
+	$prod = new WC_Product( $product );
+
+	if ( ! get_field( 'crosssell_products' ) || get_field( 'crosssell_active' ) == false ) {
+		if ( count( $cross_sells ) > 0 ) {
+			foreach ( $cross_sells as $id ) {
+				array_push( $cross_sell_posts, get_post( $id ) );
+				array_push( $cross_ids, $id );
+			}
+			update_field( 'crosssell_products', $cross_sell_posts );
+			update_field( 'crosssell_active', true );
+			$product->set_cross_sell_ids( $cross_ids );
+			$product->save();
+		}
+	} else {
+		foreach ( get_field( 'crosssell_products' ) as $cf ) {
+			array_push( $cross_sell_display, $cf->ID );
+		}
+		$product->set_cross_sell_ids( $cross_sell_display );
+		$product->save();
+	}
+}
 
 add_action( 'manage_product_posts_custom_column', 'product_column_custom', 10, 2 );
 
