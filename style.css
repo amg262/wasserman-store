@@ -27,9 +27,6 @@ Text Domain: wasserman-store
     /*float: right;*/
 }
 
-/*	max-width:22.2%;
-	margin: 0 2.8% 2.992em 0 !important;
-}*/
 
 .reg-form {
 
@@ -66,10 +63,6 @@ ul#shipping_method li > label {
 
 #yith-wacp-popup.open .yith-wacp-main {
     background: #F7F5EE;
-}
-
-#wp-live-chat {
-    /*right:15% !important;*/
 }
 
 #yith-wacp-popup .yith-wacp-content .product-info p:before {

@@ -6,6 +6,8 @@
  *
  * @package store
  */
+
+echo 'hi';
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( grid_search() ); ?>>

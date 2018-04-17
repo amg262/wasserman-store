@@ -35,10 +35,10 @@ var paths = {
 // Not all tasks need to use streams
 // A gulpfile is just another node program and you can use any package available on npm
 gulp.task("purge", function () {
-    //gulp.src(paths.dist_js + "*")
-    //   .pipe(clean());
-    //gulp.src(paths.dist_css + "*")
-    //   .pipe(clean());
+    gulp.src(paths.wasser + "*.js")
+        .pipe(clean());
+    gulp.src(paths.wasser + "*.css")
+        .pipe(clean());
 });
 
 // Copy all static images
@@ -48,7 +48,7 @@ gulp.task("imagemin", function () {
 });
 
 gulp.task("cssnano", function () {
-    gulp.src(paths.lib_css + "*.css")
+    gulp.src("style.css")
         .pipe(cssnano())
         .pipe(rename({suffix: ".min"}))
         .pipe(gulp.dest(paths.wasser))
@@ -68,7 +68,7 @@ gulp.task('scripts', function () {
  */
 gulp.task("uglify", function () {
 
-    gulp.src(paths.lib_js + "*.js")
+    gulp.src("wass.js")
         .pipe(uglify())
         .pipe(rename({suffix: ".min"}))
         .pipe(gulp.dest(paths.wasser));
@@ -99,14 +99,15 @@ gulp.task("serve", function () {
 // Rerun the task when a file changes
 gulp.task("watch", function () {
     //gulp.watch(paths.scripts, ["scripts"]);
-    gulp.watch('functions.php').on("change", browserSync.reload);
-    gulp.watch('gulpfile.js').on("change", browserSync.reload);
-
+    gulp.watch('*.php').on("change", browserSync.reload);
+    gulp.watch('*.css').on("change", browserSync.reload);
+    gulp.watch('modules/content/*.php').on("change", browserSync.reload);
+    gulp.watch('wass.js').on("change", browserSync.reload);
 });
 
 //gulp.task("default", ["purge", "imagemin", "cssnano", "uglify", "serve", "watch"]);
 gulp.task("default", ["purge", "imagemin", "cssnano", "uglify", "serve", "watch"]);
-
-gulp.task("clean", ["cssnano", "uglify", "serve", "watch"]);
+gulp.task("build", ["cssnano", "uglify"]);
+gulp.task("clean", ["purge", "cssnano", "uglify", "serve", "watch"]);
 gulp.task("live", ["serve", "watch"]);
 

@@ -307,8 +307,7 @@ function replay_upsells() {
 	//var_dump(get_field('crosssell_products'));
 	//if (get_field())
 }
-
-//add_action( 'admin_init', 'get_prod_acfs' );
+//add_action( 'admin_init', 'replay_upsells' );
 
 // Remove related products from after single product hook
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
