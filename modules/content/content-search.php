@@ -6,8 +6,6 @@
  *
  * @package store
  */
-
-echo 'hi';
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( grid_search() ); ?>>
@@ -35,10 +33,11 @@ echo 'hi';
 			$terms = get_the_terms( get_the_ID(), 'product_cat' );
 			echo '<span class="price"># ' . get_the_ID() . '</span>';
 			the_excerpt();
-			$af = site_url() . '/?add-to-cart=' . get_the_ID();
+			$af = site_url() . '/cart/?add-to-cart=' . get_the_ID();
+
+			echo '<a rel="nofollow" class="button product_type_simple add_to_cart_button ajax_add_to_cart btn-search" href=' . esc_url( get_the_permalink() ) . '>View</a>';
 
 			echo '<a rel="nofollow" class="button product_type_simple add_to_cart_button ajax_add_to_cart" href=' . $af . '>Add to cart</a>';
-
 
 			?>
 

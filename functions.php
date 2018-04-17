@@ -9,8 +9,16 @@ add_action( 'wp_enqueue_scripts', 'wasserman_store_enqueue' );
  */
 function wasserman_store_enqueue() {
 	wp_enqueue_style( 'wasserman-store-partent-style', get_template_directory_uri() . '/style.css' );
-	wp_enqueue_style( 'wasserman-store-min-style', get_theme_file_uri() . '/wasser/style.min.css' );
-	wp_enqueue_script( 'wassjs',get_theme_file_uri().'/wass.js'  );
+	wp_enqueue_script( 'wassjs', get_theme_file_uri() . '/wass.js' );
+	wp_enqueue_style( 'wasscsss', get_theme_file_uri() . '/style.css' );
+
+	if ( get_field( 'use_minified', 'option' ) == true ) {
+		wp_enqueue_style( 'wasserman-store-min-style', get_theme_file_uri() . '/wasser/style.min.css' );
+		wp_enqueue_script( 'wassminjs', get_theme_file_uri() . '/wasser/wass.min.js' );
+		wp_dequeue_script( 'wassjs' );
+		wp_dequeue_style( 'wasscss' );
+	}
+
 }
 
 add_action( 'after_setup_theme', 'register_user_menu' );

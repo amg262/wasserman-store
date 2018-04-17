@@ -6,23 +6,22 @@ jQuery(document).ready(function ($) {
 
     var s = false;
     $('#toggle_sidebar').click(function (e) {
-        $('#toggle_sidebar').innerText = 'Show';
+
         if (s === false) {
-            $('#secondary').css('display','none');
-            $('#primary-mono').css('width','100%');
+            $('#secondary').css('display', 'none');
+            $('#primary-mono').css('width', '100%');
+            //$('#primary').css('width','100%');
             //console.log($('#toggle_sidebar'));// 'Show Sidebar';
             $('#toggle_sidebar').innerText = 'Show';
 
             s = true;
         } else {
-            $('#secondary').css('display','block');
-            $('#primary-mono').css('width','75%');
+            $('#secondary').css('display', 'block');
+            $('#primary-mono').css('width', '75%');
+            //$('#primary').css('width','75%');
             $('#toggle_sidebar').innerText = 'Hide Sidebar';
             s = false;
         }
-
-
-
     });
 
 });
