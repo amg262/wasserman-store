@@ -425,21 +425,16 @@ function product_column_register_sortable( $columns ) {
 
 	unset( $columns['featured'] );
 
-	$columns = null;
+	//$columns = null;
 	$cb = get_field('admin_columns','option');
-
-	foreach ($cb as $c) {
-	    $columns[$c] = $c;
-    }
-
 	//unset( $columns['product_tag'] );
-	//$columns['menu_order'] = 'Menu Order';
+	$columns['menu_order'] = 'Menu Order';
 	//$columns['price']      = 'Price';
 
 	$col = [];
 	//array_unshift( $columns, $columns['menu_order'] );
 
-	var_dump( $columns );
+	var_dump( $cb );
 
 	return $columns;
 }
