@@ -298,6 +298,9 @@ function replay_upsells() {
 	$upsell_display = [];
 
 
+	$prod = new WC_Product($product);
+	//$prod->save
+
 	if ( count( $upsells ) > 0 ) {
 
 		foreach ( $upsells as $id ) {
@@ -311,13 +314,14 @@ function replay_upsells() {
 
 			update_field( 'upsell_products', $upsell_posts );
 			$product->set_upsell_ids( $upsell_ids );
-
+			$product->save();
 		} elseif ( ( count( get_field( 'upsell_products' ) ) > 0 ) && get_field( 'upsell_active' ) == true ) {
 
 			foreach ( get_field( 'upsell_products' ) as $cf ) {
 				array_push( $upsell_display, $cf->ID );
 			}
 			$product->set_upsell_ids( $upsell_display );
+			$product->save();
 		}
 		//_update_post([$product->ID]);
 		//wp_set_object_terms($product->ID, $ucf, '_crosssell_ids');
