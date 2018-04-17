@@ -9,13 +9,11 @@ add_action( 'wp_enqueue_scripts', 'wasserman_store_enqueue' );
  */
 function wasserman_store_enqueue() {
 	wp_enqueue_style( 'wasserman-store-partent-style', get_template_directory_uri() . '/style.css' );
-
+	wp_enqueue_style( 'wasserman-store-min-style', get_theme_file_uri() . '/wasser/style.min.css' );
 	//wp_enqueue_script( 'wassjs',get_stylesheet_directory_uri().'/wass.js'  );
 }
 
-
 add_action( 'after_setup_theme', 'register_user_menu' );
-//add_action( 'after_setup_theme', 'register_user_menu' );
 
 /**
  *
@@ -251,113 +249,6 @@ function grid_search() {
 
 }
 
-/**
- *
- */
-function get_prod_acfs() {
-
-	$id = '7427';
-
-	$args = [ 'post_type' => 'product', 'posts_per_page' => - 1 ];
-
-	$p     = null;
-	$posts = get_posts( $args );
-
-	foreach ( $posts as $prod ) {
-		if ( $prod->ID == $id ) {
-			echo 'hey';
-			$p = $prod;
-		}
-	}
-
-
-}
-
-
-//add_action( 'admin_init', 'replace_sells' );
-
-function replay_upsells() {
-
-	global $product;
-	//$product=  WC_Product();
-
-	//$prod       = new WC_Product( $product->ID );
-	$cross_sells  = $product->get_cross_sells();
-	$upsells      = $product->get_upsells();
-	$upsell_cf    = get_field( 'upsell_products' );
-	$cross_cf     = get_field( 'crosssell_products' );
-	$is_upsell    = get_field( 'upsell_active' );
-	$is_cross     = get_field( 'crosssell_active' );
-	$cross_args   = [];
-	$cs           = [];
-	$us           = [];
-	$upsell_posts = [];
-	$upsell_ids   = [];
-	$cs_ids       = [];
-	$ucf          = [];
-
-
-	//var_dump( $prod );
-	//if ( ! get_field( 'upsell_products' ) ) {
-
-
-	//var_dump($upsells);
-	//var_dump($upsell_cf);
-	if ( $is_upsell == true ) {
-
-	}
-	if ( count( $upsells ) > 0 ) {
-
-		foreach ( $upsells as $id ) {
-			array_push( $upsell_posts, get_post( $id ) );
-			array_push( $upsell_ids, $id );
-		}
-
-		if ( ( ! get_field( 'upsell_products' ) ) ||
-		     ( ( get_field( 'upsell_active' ) == false &&
-		         get_field( 'upsell_products' ) != $upsell_posts ) ) ) {
-
-			update_field( 'upsell_products', $upsell_posts );
-			$product->set_upsell_ids( $upsell_ids );
-
-		} elseif ( ( count( get_field( 'upsell_products' ) ) > 0 ) && get_field( 'upsell_active' ) == true ) {
-
-			foreach ( get_field( 'upsell_products' ) as $cf ) {
-				array_push( $ucf, $cf->ID );
-			}
-			$product->set_upsell_ids( $ucf );
-		}
-
-		//_update_post([$product->ID]);
-		//wp_set_object_terms($product->ID, $ucf, '_crosssell_ids');
-		//update_post_meta($product->ID, '_crossell_ids', $ucf);
-
-	}
-
-	var_dump( $product->get_upsell_ids() );
-	/*var_dump( $cs_ids );
-
-
-	if ( count( $cross_sells ) > 0 ) {
-
-		foreach ( $cross_sells as $id ) {
-			array_push( $cross_args, get_post( $id ) );
-			array_push( $cs_ids, $id );
-		}
-		if ( ( $cross_sells !== $cs_ids ) ) {
-			//update_field( 'crosssell_products', $cross_args );
-		}
-
-		$product->set_cross_sell_ids( $cs_ids );
-
-	}
-
-	var_dump( $product->get_cross_sell_ids() );
-	var_dump( $cs_ids );*/
-
-}
-
-//add_filter('manage_edit-header_text_sortable_columns','order_column_register_sortable');
 
 // Remove related products from after single product hook
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
@@ -386,38 +277,86 @@ add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
 //add_action( 'woocommerce_after_single_product_summary', 'yourthemename_upsell_related_cross', 20 );
 
 
-function odie() {
-	$cb = get_field( 'admin_columns', 'option' );
-	var_dump( $cb );
+/**
+ *
+ */
+function replay_upsells() {
+
+	global $product;
+
+	$cross_sells    = $product->get_cross_sells();
+	$upsells        = $product->get_upsells();
+	$upsell_cf      = get_field( 'upsell_products' );
+	$cross_cf       = get_field( 'crosssell_products' );
+	$is_upsell      = get_field( 'upsell_active' );
+	$is_cross       = get_field( 'crosssell_active' );
+	$cross_posts    = [];
+	$cross_display  = [];
+	$upsell_posts   = [];
+	$upsell_ids     = [];
+	$cross_ids      = [];
+	$upsell_display = [];
+
+
+	if ( count( $upsells ) > 0 ) {
+
+		foreach ( $upsells as $id ) {
+			array_push( $upsell_posts, get_post( $id ) );
+			array_push( $upsell_ids, $id );
+		}
+
+		if ( ( ! get_field( 'upsell_products' ) ) ||
+		     ( ( get_field( 'upsell_active' ) == false &&
+		         get_field( 'upsell_products' ) != $upsell_posts ) ) ) {
+
+			update_field( 'upsell_products', $upsell_posts );
+			$product->set_upsell_ids( $upsell_ids );
+
+		} elseif ( ( count( get_field( 'upsell_products' ) ) > 0 ) && get_field( 'upsell_active' ) == true ) {
+
+			foreach ( get_field( 'upsell_products' ) as $cf ) {
+				array_push( $upsell_display, $cf->ID );
+			}
+			$product->set_upsell_ids( $upsell_display );
+		}
+		//_update_post([$product->ID]);
+		//wp_set_object_terms($product->ID, $ucf, '_crosssell_ids');
+		//update_post_meta($product->ID, '_crossell_ids', $ucf);
+	}
+
+	//var_dump( $product->get_upsell_ids() );
+
+	if ( count( $cross_sells ) > 0 ) {
+
+		foreach ( $cross_sells as $id ) {
+			array_push( $cross_posts, get_post( $id ) );
+			array_push( $cross_ids, $id );
+		}
+
+		if ( ( ! get_field( 'crosssell_products' ) ) ||
+		     ( ( get_field( 'crosssell_active' ) == false &&
+		         get_field( 'crosssell_products' ) != $cross_posts ) ) ) {
+
+			update_field( 'crosssell_products', $cross_posts );
+			$product->set_cross_sell_ids( $cross_ids );
+
+		} elseif ( ( count( get_field( 'crosssell_products' ) ) > 0 ) && get_field( 'crosssell_active' ) == true ) {
+
+			foreach ( get_field( 'crosssell_products' ) as $cf ) {
+				array_push( $cross_display, $cf->ID );
+			}
+			$product->set_upsell_ids( $cross_display );
+		}
+	}
 }
 
-add_action( 'admin_init', 'odie' );
-
-
-//add_filter( 'manage_edit-product_columns', 'change_columns_filter',10, 1 );
-function change_columns_filter( $columns ) {
-	unset( $columns['product_tag'] );
-	unset( $columns['sku'] );
-	unset( $columns['featured'] );
-	unset( $columns['product_type'] );
-
-	return $columns;
-}
-
-//add_filter( 'manage_edit-product_columns', 'show_product_order',15 );
-function show_product_order( $columns ) {
-
-	//remove column
-	unset( $columns['tags'] );
-
-	//add column
-	$columns['menu_order'] = __( 'Menu Order' );
-
-	return $columns;
-}
 
 add_action( 'manage_product_posts_custom_column', 'product_column_custom', 10, 2 );
 
+/**
+ * @param $column
+ * @param $postid
+ */
 function product_column_custom( $column, $postid ) {
 
 	$p = new WC_Product( $postid );
@@ -432,6 +371,10 @@ function product_column_custom( $column, $postid ) {
 		echo get_post_meta( $postid, 'custom_order', true );
 	}
 }
+
+
+add_filter( 'manage_edit-product_columns', 'product_column_register_sortable', 10, 1 );
+add_filter( 'manage_edit-product_sortable_columns', 'product_column_register_sortable', 15 );
 
 /**
  * make column sortable
@@ -454,8 +397,6 @@ function product_column_register_sortable( $columns ) {
 	return $columns;
 }
 
-add_filter( 'manage_edit-product_columns', 'product_column_register_sortable', 10, 1 );
-add_filter( 'manage_edit-product_sortable_columns', 'product_column_register_sortable', 15 );
 
 
 

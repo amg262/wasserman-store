@@ -107,7 +107,7 @@ gulp.task("watch", function () {
 
 //gulp.task("default", ["purge", "imagemin", "cssnano", "uglify", "serve", "watch"]);
 gulp.task("default", ["purge", "imagemin", "cssnano", "uglify", "serve", "watch"]);
-gulp.task("build", ["cssnano", "uglify"]);
+gulp.task("build", ["purge", "cssnano", "uglify"]);
 gulp.task("clean", ["purge", "cssnano", "uglify", "serve", "watch"]);
 gulp.task("live", ["serve", "watch"]);
 

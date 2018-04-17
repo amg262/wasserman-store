@@ -30,6 +30,14 @@ Text Domain: wasserman-store
     display: inline-block !important;
 }
 
+.reg-form {
+
+}
+
+.reg-form label {
+
+}
+
 /*.woocommerce form.login,
 .woocommerce form.register {
     max-width: 50%;
