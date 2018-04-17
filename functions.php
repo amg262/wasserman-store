@@ -286,6 +286,7 @@ function replay_upsells() {
 	$upsells    = $product->get_upsells();
 	$cross_args = [];
 	$c          = [];
+	$u = [];
 	$up_args    = [];
 
 
@@ -305,13 +306,14 @@ function replay_upsells() {
 	$f = get_field( 'upsell_products' );
 	//var_dump( $f );
 	foreach ( $f as $a ) {
-		array_push( $c, $a->ID );
+		array_push( $u, $a->ID );
 	}
 
 	//var_dump( $c );
-	$product->set_upsell_ids( $c );
+	$product->set_upsell_ids( $u );
 
-	if ( ! get_field( 'crosssell_products' ) ) {
+
+	//if ( ! get_field( 'crosssell_products' ) ) {
 		if ( count( $cross ) > 0 ) {
 
 			foreach ( $cross as $id ) {
@@ -319,11 +321,19 @@ function replay_upsells() {
 
 			}
 
-			update_field( 'crosssell_products', $cross_args );
+			//update_field( 'crosssell_products', $cross_args );
 		}
+	//}
+	$f = get_field( 'crosssell_products' );
+	//var_dump( $f );
+	foreach ( $f as $a ) {
+		array_push( $c, $a->ID );
 	}
 
-	return get_field('upsell_products');
+	//var_dump( $c );
+	$product->set_cross_sell_ids( $c );
+
+	//return get_field('upsell_products');
 	//var_dump( $product->get_upsell_ids() );
 }
 
@@ -345,6 +355,7 @@ function yourthemename_upsell_related_cross() {
 		$upsells = $product->get_upsells();
 		if ( count( $upsells ) > 0 ) {
 			woocommerce_upsell_display( 4, 4 );
+			woocommerce_cross_sell_display(16,4);
 		} else {
 			woocommerce_output_related_products();
 		}
@@ -352,7 +363,21 @@ function yourthemename_upsell_related_cross() {
 }
 
 add_action( 'woocommerce_after_single_product_summary', 'replay_upsells',15 );
-add_action( 'woocommerce_after_single_product_summary', 'yourthemename_upsell_related_cross', 20 );
+//add_action( 'woocommerce_after_single_product_summary', 'yourthemename_upsell_related_cross', 20 );
+
+
+
+
+
+function odie(){
+    $cb = get_field('admin_columns','option');
+    var_dump($cb);
+}
+add_action('admin_init','odie');
+
+
+
+
 
 //add_filter( 'manage_edit-product_columns', 'change_columns_filter',10, 1 );
 function change_columns_filter( $columns ) {
@@ -397,9 +422,18 @@ function product_column_custom( $column, $postid ) {
  * make column sortable
  */
 function product_column_register_sortable( $columns ) {
+
 	unset( $columns['featured'] );
+
+	$columns = null;
+	$cb = get_field('admin_columns','option');
+
+	foreach ($cb as $c) {
+	    $columns[$c] = $c;
+    }
+
 	//unset( $columns['product_tag'] );
-	$columns['menu_order'] = 'Menu Order';
+	//$columns['menu_order'] = 'Menu Order';
 	//$columns['price']      = 'Price';
 
 	$col = [];
