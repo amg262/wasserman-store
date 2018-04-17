@@ -10,7 +10,7 @@ add_action( 'wp_enqueue_scripts', 'wasserman_store_enqueue' );
 function wasserman_store_enqueue() {
 	wp_enqueue_style( 'wasserman-store-partent-style', get_template_directory_uri() . '/style.css' );
 	wp_enqueue_style( 'wasserman-store-min-style', get_theme_file_uri() . '/wasser/style.min.css' );
-	//wp_enqueue_script( 'wassjs',get_stylesheet_directory_uri().'/wass.js'  );
+	wp_enqueue_script( 'wassjs',get_theme_file_uri().'/wass.js'  );
 }
 
 add_action( 'after_setup_theme', 'register_user_menu' );
