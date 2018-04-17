@@ -308,7 +308,7 @@ function replay_upsells() {
 		array_push( $c, $a->ID );
 	}
 
-	var_dump( $c );
+	//var_dump( $c );
 	$product->set_upsell_ids( $c );
 
 	if ( ! get_field( 'crosssell_products' ) ) {
@@ -322,7 +322,9 @@ function replay_upsells() {
 			update_field( 'crosssell_products', $cross_args );
 		}
 	}
-	var_dump( $product->get_upsell_ids() );
+
+	return get_field('upsell_products');
+	//var_dump( $product->get_upsell_ids() );
 }
 
 //add_filter('manage_edit-header_text_sortable_columns','order_column_register_sortable');
@@ -349,7 +351,7 @@ function yourthemename_upsell_related_cross() {
 	}
 }
 
-add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 20 );
+add_action( 'woocommerce_after_single_product_summary', 'replay_upsells',15 );
 add_action( 'woocommerce_after_single_product_summary', 'yourthemename_upsell_related_cross', 20 );
 
 //add_filter( 'manage_edit-product_columns', 'change_columns_filter',10, 1 );
