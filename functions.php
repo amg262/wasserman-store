@@ -292,15 +292,25 @@ add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
 function replay_upsells() {
 
 	global $product;
-	$cross_sells    = $product->get_cross_sells();
-	$upsells        = $product->get_upsells();
-	$upsell_posts   = [];
-	$upsell_ids     = [];
-	$cross_ids      = [];
-	$upsell_display = [];
+	$cross_sells        = $product->get_cross_sell_ids();
+	$upsells            = $product->get_upsells();
+	$upsell_posts       = [];
+	$upsell_ids         = [];
+	$cross_ids          = [];
+	$upsell_display     = [];
+	$cross_sell_display = [];
 
 	$prod = new WC_Product( $product );
 
+	/*$c    = [];
+	$cats = $prod->get_category_ids();
+
+	foreach ( $cats as $cat ) {
+		array_push( $c, get_the_category_by_ID( $cat ) );
+		$a = get_the_category_by_ID( $cat );
+		//var_dump($a);
+	}*/
+	//$names = get_the_category_by_ID()
 	if ( ! get_field( 'upsell_products' ) || get_field( 'upsell_active' ) == false ) {
 		if ( count( $upsells ) > 0 ) {
 			foreach ( $upsells as $id ) {
@@ -319,7 +329,26 @@ function replay_upsells() {
 		$product->set_upsell_ids( $upsell_display );
 		$product->save();
 	}
-	
+
+	var_dump( $cross_sells );
+	if ( ! get_field( 'crosssell_products' ) || get_field( 'crosssell_active' ) == false ) {
+		if ( count( $cross_sells ) > 0 ) {
+			foreach ( $cross_sells as $id ) {
+				array_push( $cross_sell_posts, get_post( $id ) );
+				array_push( $cross_ids, $id );
+			}
+			update_field( 'crosssell_products', $cross_sell_posts );
+			update_field( 'crosssell_active', true );
+			$product->set_cross_sell_ids( $cross_ids );
+			$product->save();
+		}
+	} else {
+		foreach ( get_field( 'crosssell_products' ) as $cf ) {
+			array_push( $cross_sell_display, $cf->ID );
+		}
+		$product->set_cross_sell_ids( $cross_sell_display );
+		$product->save();
+	}
 }
 
 
@@ -356,6 +385,16 @@ function replay_cross_sells() {
 	}
 }
 
+
+function custom_order_algorithm() {
+	$date = date( 'y' );
+
+
+	echo $date;
+
+}
+
+//add_action('admin_init','custom_order_algorithm');
 add_action( 'manage_product_posts_custom_column', 'product_column_custom', 10, 2 );
 
 /**
