@@ -292,8 +292,13 @@ add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
 function replay_upsells() {
 
 	global $product;
-	$cross_sells        = $product->get_cross_sell_ids();
-	$upsells            = $product->get_upsells();
+	$cross_sells = $product->get_cross_sell_ids();
+	$upsells     = $product->get_upsell_ids();
+	$u           = get_field( 'upsell_products' );
+	$ua          = get_field( 'upsell_active' );
+	$has_upsells = false;
+
+	$has_cf_upsells     = false;
 	$upsell_posts       = [];
 	$upsell_ids         = [];
 	$cross_ids          = [];
@@ -311,44 +316,50 @@ function replay_upsells() {
 		//var_dump($a);
 	}*/
 	//$names = get_the_category_by_ID()
-	if ( ! get_field( 'upsell_products' ) || get_field( 'upsell_active' ) == false ) {
-		if ( count( $upsells ) > 0 ) {
-			foreach ( $upsells as $id ) {
-				array_push( $upsell_posts, get_post( $id ) );
-				array_push( $upsell_ids, $id );
-			}
-			update_field( 'upsell_products', $upsell_posts );
-			update_field( 'upsell_active', true );
-			$product->set_upsell_ids( $upsell_ids );
-			$product->save();
+	if ( count( $upsells ) > 0 ) {
+		foreach ( $upsells as $id ) {
+			$upsell_posts[] = get_post( $id );
+			$upsell_ids[]   = $id;
 		}
-	} else {
-		foreach ( get_field( 'upsell_products' ) as $cf ) {
-			array_push( $upsell_display, $cf->ID );
+		$has_upsells = true;
+	}
+	if ( ( $u ) && ( count( $u ) > 0 ) ) {
+		foreach ( $u as $cf ) {
+			$upsell_display[] = $cf->ID;
 		}
-		$product->set_upsell_ids( $upsell_display );
-		$product->save();
+		$has_cf_upsells = true;
 	}
 
-	var_dump( $cross_sells );
-	if ( ! get_field( 'crosssell_products' ) || get_field( 'crosssell_active' ) == false ) {
-		if ( count( $cross_sells ) > 0 ) {
-			foreach ( $cross_sells as $id ) {
-				array_push( $cross_sell_posts, get_post( $id ) );
-				array_push( $cross_ids, $id );
+	if ( ( $has_upsells === true ) || ( $has_cf_upsells === true ) ) {
+
+		if ( $upsell_display === $upsells ) {
+			if ( $ua !== true ) {
+				update_field( 'upsell_active', true );
 			}
-			update_field( 'crosssell_products', $cross_sell_posts );
-			update_field( 'crosssell_active', true );
-			$product->set_cross_sell_ids( $cross_ids );
-			$product->save();
+		} else {
+
+			if ( $ua === true ) {
+
+				update_field( 'upsell_active', true );
+
+				$product->set_upsell_ids( $upsell_display );
+				$product->save();
+			} else {
+				update_field( 'upsell_active', true );
+				update_field( 'upsell_products', $upsell_posts );
+
+				$product->set_upsell_ids( $upsell_ids );
+				$product->save();
+			}
 		}
-	} else {
-		foreach ( get_field( 'crosssell_products' ) as $cf ) {
-			array_push( $cross_sell_display, $cf->ID );
-		}
-		$product->set_cross_sell_ids( $cross_sell_display );
-		$product->save();
 	}
+	/*oreach ( get_field( 'upsell_products' ) as $cf ) {
+		array_push( $upsell_display, $cf->ID );
+	}
+	$product->set_upsell_ids( $upsell_display );
+	$product->save();*/
+
+
 }
 
 
@@ -414,6 +425,27 @@ function product_column_custom( $column, $postid ) {
 		//echo $p->get_price();
 		echo get_post_meta( $postid, 'custom_order', true );
 	}
+	if ( $column == 'upsell_products' ) {
+		//echo $p->get_price();
+
+		$pa = get_field( 'upsell_products', $p->ID );
+		if ( ! $pa ) {
+			echo 'null';
+		} else {
+			echo count( $pa );
+		}
+
+	}
+	if ( $column == 'upsell_active' ) {
+		//echo $p->get_price();
+		echo get_field( 'upsell_active', $p->ID );
+	}
+
+	if ( $column == 'upsells' ) {
+		//echo $p->get_price();
+		$ups = $p->get_upsell_ids();
+		echo count( $ups );
+	}
 }
 
 
@@ -437,6 +469,13 @@ function product_column_register_sortable( $columns ) {
 			$columns['custom_order'] = 'Order';
 		}
 	}
+
+	$columns['upsell_products'] = 'U';
+
+	$columns['upsell_active'] = 'A';
+
+	$columns['upsells'] = 'US';
+
 
 	return $columns;
 }
