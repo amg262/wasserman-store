@@ -1,5 +1,5 @@
 <?php
-//include_once( __DIR__ . '/functions-custom.php' );
+//include_once( __DIR__ . '/custom.php' );
 
 //Your awesome code could start here.
 add_action( 'wp_enqueue_scripts', 'wasserman_store_enqueue' );
