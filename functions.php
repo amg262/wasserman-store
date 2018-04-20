@@ -261,27 +261,56 @@ function grid_search() {
 // Remove related products from after single product hook
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
 // Remove up sells from after single product hook
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_cross_sell_display', 20 );
+
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
 
 /**
  *
  */
 function yourthemename_upsell_related_cross() {
-	if ( is_cart() ) {
-		woocommerce_cross_sell_display();
-	} elseif ( ! ( is_checkout() || is_front_page() || is_shop() || is_product_category() || is_product_tag() ) ) {
-		global $product;
-		$upsells = $product->get_upsells();
-		if ( count( $upsells ) > 0 ) {
-			woocommerce_upsell_display( 4, 4 );
-			woocommerce_cross_sell_display( 16, 4 );
-		} else {
-			woocommerce_output_related_products();
+	if ( get_field( 'show_upsells', 'option' ) == true ) {
+		if ( is_cart() ) {
+			woocommerce_cross_sell_display();
+		} elseif ( ! ( is_checkout() || is_front_page() || is_shop() || is_product_category() || is_product_tag() ) ) {
+			global $product;
+			$upsells = $product->get_upsells();
+			if ( count( $upsells ) > 0 ) {
+				woocommerce_upsell_display( get_field( 'upsells', 'option' ), get_field( 'upsell_columns', 'option' ) );
+				//woocommerce_cross_sell_display( 4, 4 );
+			} else {
+				//woocommerce_output_related_products();
+			}
 		}
 	}
 }
 
+/**
+ *
+ */
+function yourthemename_cross() {
+
+	if ( get_field( 'show_crosssells', 'option' ) == true ) {
+		woocommerce_cross_sell_display( get_field( 'crosssells', 'option' ), get_field( 'cross_sells', 'option' ) );
+	}
+}
+
+
+/**
+ *
+ */
+function yourthemename_related() {
+
+	if ( get_field( 'show_related', 'option' ) == true ) {
+		woocommerce_output_related_products(  );
+	}
+}
 add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
+//add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 15 );
+//add_action( 'woocommerce_after_single_product_summary', 'woocommerce_cross_sell_display', 15 );yourthemename_cross
+add_action( 'woocommerce_after_single_product_summary', 'yourthemename_cross', 15 );
+add_action( 'woocommerce_after_single_product_summary', 'yourthemename_related', 15 );
+//add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
 
 //add_action( 'woocommerce_after_single_product_summary', 'yourthemename_upsell_related_cross', 20 );
 
@@ -306,7 +335,6 @@ function replay_upsells() {
 	$cross_sell_display = [];
 
 	$prod = new WC_Product( $product );
-
 	/*$c    = [];
 	$cats = $prod->get_category_ids();
 
