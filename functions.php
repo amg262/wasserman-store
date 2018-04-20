@@ -9,9 +9,10 @@ add_action( 'wp_enqueue_scripts', 'wasserman_store_enqueue' );
  */
 function wasserman_store_enqueue() {
 	wp_enqueue_style( 'wasserman-store-partent-style', get_template_directory_uri() . '/style.css' );
-	wp_enqueue_script( 'wassjs', get_theme_file_uri() . '/wass.js' );
-	wp_enqueue_style( 'wasscsss', get_theme_file_uri() . '/style.css' );
-
+	wp_enqueue_script( 'wassjs', get_theme_file_uri() . '/wasser/scripts.js' );
+	wp_enqueue_style( 'wasscsss', get_theme_file_uri() . '/wasser/styles.css' );
+	wp_enqueue_script( 'wassminjs', get_theme_file_uri() . '/wasser/scripts.min.js' );
+	wp_enqueue_style( 'wassmincsss', get_theme_file_uri() . '/wasser/styles.min.css' );
 	//if ( get_field( 'use_minified', 'option' ) == true ) {
 //		wp_enqueue_style( 'wasserman-store-min-style', get_theme_file_uri() . '/wasser/style.min.css' );
 //		wp_enqueue_script( 'wassminjs', get_theme_file_uri() . '/wasser/wass.min.js' );
@@ -488,7 +489,7 @@ function product_column_register_sortable( $columns ) {
 
 	$cb = get_field( 'admin_columns', 'option' );
 
-	if ($cb) {
+	if ( $cb ) {
 		foreach ( $cb as $c ) {
 			if ( $c == 'menu_order' ) {
 				$columns['menu_order'] = 'Menu Order';
@@ -508,11 +509,11 @@ function product_column_register_sortable( $columns ) {
 }
 
 
-add_filter('acf/fields/relationship/result', 'id_relationship_result', 10, 4);
-function id_relationship_result($title, $post, $field, $post_id){
+add_filter( 'acf/fields/relationship/result', 'id_relationship_result', 10, 4 );
+function id_relationship_result( $title, $post, $field, $post_id ) {
 	// load a custom field from this $object and show it in the $result
-    $prod = new WC_Product($post->ID);
-    $sku = $prod->get_sku();
+	$prod = new WC_Product( $post->ID );
+	$sku  = $prod->get_sku();
 
 	// append to title
 	$title .= ' [' . $sku . '] ';
