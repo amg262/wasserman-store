@@ -310,7 +310,7 @@ function redisplay_related() {
 //add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 15 );
 //add_action( 'woocommerce_after_single_product_summary', 'woocommerce_cross_sell_display', 15 );yourthemename_cross
 //add_action( 'woocommerce_after_single_product_summary', 'redisplay_cross', 20 );
-add_action( 'woocommerce_after_single_product_summary', 'redisplay_related', 15 );
+//add_action( 'woocommerce_after_single_product_summary', 'redisplay_related', 15 );
 //add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
 
 //add_action( 'woocommerce_after_single_product_summary', 'yourthemename_upsell_related_cross', 20 );
@@ -488,12 +488,14 @@ function product_column_register_sortable( $columns ) {
 
 	$cb = get_field( 'admin_columns', 'option' );
 
-	foreach ( $cb as $c ) {
-		if ( $c == 'menu_order' ) {
-			$columns['menu_order'] = 'Menu Order';
-		}
-		if ( $c == 'custom_order' ) {
-			//$columns['custom_order'] = 'Order';
+	if ($cb) {
+		foreach ( $cb as $c ) {
+			if ( $c == 'menu_order' ) {
+				$columns['menu_order'] = 'Menu Order';
+			}
+			if ( $c == 'custom_order' ) {
+				//$columns['custom_order'] = 'Order';
+			}
 		}
 	}
 
