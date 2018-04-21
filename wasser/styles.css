@@ -36,6 +36,7 @@ button.wass-btn {
     color: #777;
 }
 
+
 /*.woocommerce form.login,
 .woocommerce form.register {
     max-width: 50%;
@@ -312,12 +313,22 @@ ul#shipping_method li {
 	}
 }*/
 
-.woocommerce.single-product.collateral-product-columns-4 ul.products li.product, .woocommerce-page.single-product.collateral-product-columns-4 ul.products li.product, .woocommerce.single-product.collateral-product-columns-4 .upsells.products li.product, .woocommerce-page.single-product.collateral-product-columns-4 .upsells.products li.product {
+.woocommerce.single-product.collateral-product-columns-4 ul.products li.product,
+.woocommerce-page.single-product.collateral-product-columns-4 ul.products li.product,
+.woocommerce.single-product.collateral-product-columns-4 .upsells.products li.product,
+.woocommerce-page.single-product.collateral-product-columns-4 .upsells.products li.product {
+    /*width: 22.05% !important;*/
+    margin: 0 2.8% 2.992em 0;
+
+}
+.woocommerce ul.products.columns-5 li.product, .woocommerce-page ul.products.columns-5 li.product {
+    width: 16.95% !important;
+}
+.woocommerce ul.products.columns-4 li.product, .woocommerce-page ul.products.columns-4 li.product {
     width: 22.05% !important;
 }
-
 .woocommerce .cart-collaterals .cross-sells ul.products li, .woocommerce-page .cart-collaterals .cross-sells ul.products li {
-    width: 22.05%;
+    /*width: 22.05% !important;*/
 }
 
 .search-results article.status-publish,
