@@ -113,9 +113,9 @@
         <div id="content" class="site-content container">
 
 
-            <!--<div>
+            <div>
                 <button class="wass-btn"
                         style="background: #dfd6ba;color: #777;float: right;margin: 20px 0 5px 0;font-size: 12px;line-height: 1;padding: 5px;"
                         id="toggle_sidebar">Toggle Sidebar
                 </button>
-            </div>-->
+            </div>

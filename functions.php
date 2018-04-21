@@ -1,4 +1,15 @@
 <?php
+/**
+ * Copyright (c) 2018.
+ * andrewmgunn26@gmail.com
+ * github.com/amg262
+ */
+const PERF              = 'performance';
+const TEST              = 'test';
+
+
+const BUILD_ENVIRONMENT = PERF;
+
 //include_once( __DIR__ . '/custom.php' );
 
 //Your awesome code could start here.
@@ -9,17 +20,14 @@ add_action( 'wp_enqueue_scripts', 'wasserman_store_enqueue' );
  */
 function wasserman_store_enqueue() {
 	wp_enqueue_style( 'wasserman-store-partent-style', get_template_directory_uri() . '/style.css' );
-	wp_enqueue_script( 'wassjs', get_theme_file_uri() . '/wasser/scripts.js' );
-	wp_enqueue_style( 'wasscsss', get_theme_file_uri() . '/wasser/styles.css' );
-	wp_enqueue_script( 'wassminjs', get_theme_file_uri() . '/wasser/scripts.min.js' );
-	wp_enqueue_style( 'wassmincsss', get_theme_file_uri() . '/wasser/styles.min.css' );
-	//if ( get_field( 'use_minified', 'option' ) == true ) {
-//		wp_enqueue_style( 'wasserman-store-min-style', get_theme_file_uri() . '/wasser/style.min.css' );
-//		wp_enqueue_script( 'wassminjs', get_theme_file_uri() . '/wasser/wass.min.js' );
-//		wp_dequeue_script( 'wassjs' );
-//		wp_dequeue_style( 'wasscss' );
-//	}
 
+	if ( BUILD_ENVIRONMENT === PERF ) {
+		wp_enqueue_script( 'wassminjs', get_theme_file_uri() . '/wasser/scripts.min.js' );
+		wp_enqueue_style( 'wassmincsss', get_theme_file_uri() . '/wasser/styles.min.css' );
+	} else {
+		wp_enqueue_script( 'wassjs', get_theme_file_uri() . '/wasser/scripts.js' );
+		wp_enqueue_style( 'wasscsss', get_theme_file_uri() . '/wasser/styles.css' );
+	}
 }
 
 add_action( 'after_setup_theme', 'register_user_menu' );
@@ -302,24 +310,71 @@ function redisplay_cross() {
  */
 function redisplay_related() {
 
-	if ( get_field( 'show_related', 'option' ) == true ) {
+	//if ( get_field( 'show_related', 'option' ) == true ) {
 		woocommerce_output_related_products();
-	}
+	//}
+
+
 }
 
 //add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
 //add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 15 );
 //add_action( 'woocommerce_after_single_product_summary', 'woocommerce_cross_sell_display', 15 );yourthemename_cross
 //add_action( 'woocommerce_after_single_product_summary', 'redisplay_cross', 20 );
-//add_action( 'woocommerce_after_single_product_summary', 'redisplay_related', 15 );
+add_action( 'woocommerce_after_single_product_summary', 'redisplay_related', 15 );
 //add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
 
 //add_action( 'woocommerce_after_single_product_summary', 'yourthemename_upsell_related_cross', 20 );
+add_action( 'woocommerce_after_single_product_summary', 'get_related_items',20 );
+
+
+function get_related_items($args) {
+
+	global $product;
+	//$product     = wc_get_product( $post_id );
+	global $post;
+	$prod = wc_get_product( $product->ID );
+	$rit  = 'related_items_title';
+
+	//var_dump($GLOBALS);
+
+	$ri = get_field( 'related_items' );
+	$ra = get_field( 'related_active' );
+
+
+	$title = get_field( $rit, 'option' ) ? get_field( $rit, 'option' ) : 'Related Products';
+
+	?>
+    <section class="related products">
+
+    <h2><?php esc_html_e( $title, 'wasserman-store' ); ?></h2>
+
+	<?php woocommerce_product_loop_start(); ?>
+
+	<?php foreach ( $ri as $r ) : ?>
+
+		<?php
+		$post_object = get_post( $r->ID );
+
+		setup_postdata( $GLOBALS['post'] =& $post_object );
+
+		wc_get_template_part( 'content', 'product' ); ?>
+
+	<?php endforeach; ?>
+
+	<?php woocommerce_product_loop_end(); ?>
+
+    </section><?php
+	//woocommerce_output_related_products();
+	//return $ri;
+
+
+}
+
 
 add_action( 'save_post', 'replay_upsells' );
-/**
- *
- */
+
+
 function replay_upsells( $post_id ) {
 
 	$post_type = get_post_type( $post_id );
@@ -434,9 +489,7 @@ function replay_upsells( $post_id ) {
 			}
 		}
 	}
-
 }
-
 
 //add_action('admin_init','custom_order_algorithm');
 add_action( 'manage_product_posts_custom_column', 'product_column_custom', 10, 2 );
@@ -491,16 +544,16 @@ function product_column_register_sortable( $columns ) {
 
 	if ( $cb ) {
 		foreach ( $cb as $c ) {
-			if ( $c == 'menu_order' ) {
+			if ( $c === 'menu_order' ) {
 				$columns['menu_order'] = 'Menu Order';
 			}
-			if ( $c == 'custom_order' ) {
+			if ( $c === 'custom_order' ) {
 				//$columns['custom_order'] = 'Order';
 			}
 		}
 	}
 
-	$columns['upsell_products'] = 'UPS';
+	$columns['upsell_products'] = 'UpSells';
 
 	//$columns['upsell_active'] = 'UPS A';
 
