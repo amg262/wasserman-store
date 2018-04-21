@@ -207,15 +207,29 @@ add_filter( 'woocommerce_cross_sells_columns', 'change_cross_sells_columns' );
  * @return int|mixed|null|void
  */
 function change_cross_sells_columns( $columns ) {
-
-	if ( get_field( 'cross_sells', 'option' ) ) {
-		return get_field( 'cross_sells', 'option' );
-	} else {
-		return 2;
+	if ( get_field( 'show_crosssells', 'option' ) !== true ) {
+		echo 'billz';
+		return;
 	}
+	$net  = ( get_field( 'cross_sells', 'option' ) ) ? (int) get_field( 'cross_sells', 'option' ) : 4;
+	$cols = ( get_field( 'cross_sell_columns', 'option' ) ) ? (int) get_field( 'cross_sell_columns', 'option' ) : 4;
+
+	return $cols;
 }
 
-//add_filter( 'woocommerce_output_related_products_args', 'wc_change_number_related_products' );
+add_filter( 'woocommerce_output_related_products_args', 'wc_change_number_related_products', 15 );
+
+function wc_change_number_related_products( $args ) {
+
+	$net  = ( get_field( 'related_total', 'option' ) ) ? (int) get_field( 'related_total', 'option' ) : 5;
+	$cols = ( get_field( 'related_columns', 'option' ) ) ? (int) get_field( 'related_columns', 'option' ) : 5;
+	echo 'net-' . $net;
+
+	$args['posts_per_page'] = $net;
+	$args['columns']        = $cols;
+
+	return $args;
+}
 
 
 add_filter( 'woocommerce_upsell_display_args', 'custom_woocommerce_upsell_display_args' );
@@ -299,9 +313,14 @@ function yourthemename_upsell_related_cross() {
  */
 function redisplay_cross() {
 
-	if ( get_field( 'show_crosssells', 'option' ) == true ) {
-		woocommerce_cross_sell_display( get_field( 'crosssells', 'option' ), get_field( 'cross_sells', 'option' ) );
+	if ( get_field( 'show_crosssells', 'option' ) !== true ) {
+	    echo 'billz';
+		return;
 	}
+	$net  = ( get_field( 'cross_sells', 'option' ) ) ? (int) get_field( 'cross_sells', 'option' ) : 4;
+	$cols = ( get_field( 'cross_sell_columns', 'option' ) ) ? (int) get_field( 'cross_sell_columns', 'option' ) : 4;
+
+	woocommerce_cross_sell_display($net, $cols);
 }
 
 
@@ -316,6 +335,7 @@ function redisplay_related() {
 
 
 }
+
 
 //add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
 //add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 15 );
