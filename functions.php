@@ -8,7 +8,7 @@ const PERF              = 'performance';
 const TEST              = 'test';
 
 
-const BUILD_ENVIRONMENT = PERF;
+const BUILD_ENVIRONMENT = TEST;
 
 //include_once( __DIR__ . '/custom.php' );
 
