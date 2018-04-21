@@ -25,8 +25,8 @@ var paths = {
     assets: "assets/",
     wasser: "wasser/",
     home: "functions.php",
-    lib_js: "wasser/scripts.js",
-    lib_css: "wasser/styles.css",
+    scripts: "wasser/scripts.js",
+    styles: "wasser/styles.css",
     logs: "wasser/logs/",
 };
 
