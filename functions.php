@@ -207,11 +207,7 @@ add_filter( 'woocommerce_cross_sells_columns', 'change_cross_sells_columns' );
  * @return int|mixed|null|void
  */
 function change_cross_sells_columns( $columns ) {
-	if ( get_field( 'show_crosssells', 'option' ) !== true ) {
-		echo 'billz';
-		return;
-	}
-	$net  = ( get_field( 'cross_sells', 'option' ) ) ? (int) get_field( 'cross_sells', 'option' ) : 4;
+
 	$cols = ( get_field( 'cross_sell_columns', 'option' ) ) ? (int) get_field( 'cross_sell_columns', 'option' ) : 4;
 
 	return $cols;
