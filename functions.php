@@ -344,43 +344,13 @@ add_action( 'woocommerce_after_single_product_summary', 'redisplay_related', 15 
 add_action( 'woocommerce_after_single_product_summary', 'get_related_items', 20 );
 
 
-function get_related_items( $args ) {
-
-	global $product;
-	//$product     = wc_get_product( $post_id );
-	global $post;
-	$prod = wc_get_product( $product->ID );
-	$rit  = 'related_items_title';
-
-	//var_dump($GLOBALS);
-
-	$ri = get_field( 'related_items' );
-	$ra = get_field( 'related_active' );
+function get_related_items( $post_id ) {
 
 
-	$title = get_field( $rit, 'option' ) ? get_field( $rit, 'option' ) : 'Related Products';
 
-	?>
-    <section class="related products">
 
-    <h2><?php esc_html_e( $title, 'wasserman-store' ); ?></h2>
+	//$title = get_field( $rit, 'option' ) ? get_field( $rit, 'option' ) : 'Related Products';
 
-	<?php woocommerce_product_loop_start(); ?>
-
-	<?php foreach ( $ri as $r ) : ?>
-
-		<?php
-		$post_object = get_post( $r->ID );
-
-		setup_postdata( $GLOBALS['post'] =& $post_object );
-
-		wc_get_template_part( 'content', 'product' ); ?>
-
-	<?php endforeach; ?>
-
-	<?php woocommerce_product_loop_end(); ?>
-
-    </section><?php
 	//woocommerce_output_related_products();
 	//return $ri;
 
@@ -403,6 +373,23 @@ function replay_upsells( $post_id ) {
 
 	global $product;
 	$product     = wc_get_product( $post_id );
+
+	$related_ids = get_post_meta( $product->ID ,'_related_ids' );
+	//var_dump($related_ids);
+
+
+
+    $a = [];$b=[];
+	$r = get_field('related_items');
+
+	if($r) {
+		foreach ( $r as $id ) {
+			$a[] = get_post( $id );
+			$b[]   = $id;
+		}
+    }
+
+    update_post_meta($product->ID,'_related_ids',$b);
 	$cross_sells = $product->get_cross_sell_ids();
 	$upsells     = $product->get_upsell_ids();
 	$u           = get_field( 'upsell_products' );
