@@ -311,7 +311,7 @@ function redisplay_cross() {
 function redisplay_related() {
 
 	//if ( get_field( 'show_related', 'option' ) == true ) {
-		woocommerce_output_related_products();
+	woocommerce_output_related_products();
 	//}
 
 
@@ -325,10 +325,10 @@ add_action( 'woocommerce_after_single_product_summary', 'redisplay_related', 15 
 //add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
 
 //add_action( 'woocommerce_after_single_product_summary', 'yourthemename_upsell_related_cross', 20 );
-add_action( 'woocommerce_after_single_product_summary', 'get_related_items',20 );
+add_action( 'woocommerce_after_single_product_summary', 'get_related_items', 20 );
 
 
-function get_related_items($args) {
+function get_related_items( $args ) {
 
 	global $product;
 	//$product     = wc_get_product( $post_id );
@@ -500,35 +500,23 @@ add_action( 'manage_product_posts_custom_column', 'product_column_custom', 10, 2
  */
 function product_column_custom( $column, $postid ) {
 
-	$p = new WC_Product( $postid );
+	$p     = new WC_Product( $postid );
+	$order = 0;
 
-	if ( $column == 'menu_order' ) {
-
-		echo $p->menu_order;
-		//echo get_post_meta( $postid, 'menu_order', true );
-	}
-	if ( $column == 'custom_order' ) {
-		//echo $p->get_price();
-		echo get_post_meta( $postid, 'custom_order', true );
-	}
-	if ( $column == 'upsell_products' ) {
-		//echo $p->get_price();
-
-		$pa = get_field( 'upsell_products', $p->ID );
-		if ( ! $pa ) {
-			echo 'null';
-		} else {
-			echo count( $pa );
-		}
+	switch ( $column ) {
+		case 'menu_order':
+			$order = (int) $p->menu_order;
+			update_field( 'product_order', $order, $p->ID );
+			break;
+		case 'upsell_products':
+			$ups = ( get_field( 'upsell_products', $p->ID ) ) ? count( get_field( 'upsell_products', $p->ID ) ) : '';
+			echo $ups;
+			break;
 
 	}
-	if ( $column == 'upsell_active' ) {
-		//echo $p->get_price();
-		echo get_field( 'upsell_active', $p->ID );
-	}
+
 
 }
-
 
 add_filter( 'manage_edit-product_columns', 'product_column_register_sortable', 10, 1 );
 add_filter( 'manage_edit-product_sortable_columns', 'product_column_register_sortable', 15 );
@@ -538,24 +526,10 @@ add_filter( 'manage_edit-product_sortable_columns', 'product_column_register_sor
  */
 function product_column_register_sortable( $columns ) {
 
-	//unset( $columns['featured'] );
+	unset( $columns['featured'] );
 
-	$cb = get_field( 'admin_columns', 'option' );
-
-	if ( $cb ) {
-		foreach ( $cb as $c ) {
-			if ( $c === 'menu_order' ) {
-				$columns['menu_order'] = 'Menu Order';
-			}
-			if ( $c === 'custom_order' ) {
-				//$columns['custom_order'] = 'Order';
-			}
-		}
-	}
-
+	$columns['menu_order']      = 'Menu Order';
 	$columns['upsell_products'] = 'UpSells';
-
-	//$columns['upsell_active'] = 'UPS A';
 
 
 	return $columns;
@@ -570,7 +544,6 @@ function id_relationship_result( $title, $post, $field, $post_id ) {
 
 	// append to title
 	$title .= ' [' . $sku . '] ';
-
 
 	// return
 	return $title;
