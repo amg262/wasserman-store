@@ -199,7 +199,7 @@ function wm_hide_elements() {
 
 }
 
-add_filter( 'woocommerce_cross_sells_columns', 'change_cross_sells_columns' );
+//add_filter( 'woocommerce_cross_sells_columns', 'change_cross_sells_columns' );
 
 /**
  * @param $columns
@@ -228,7 +228,7 @@ function wc_change_number_related_products( $args ) {
 }
 
 
-add_filter( 'woocommerce_upsell_display_args', 'custom_woocommerce_upsell_display_args' );
+//add_filter( 'woocommerce_upsell_display_args', 'custom_woocommerce_upsell_display_args' );
 /**
  * @param $args
  *
@@ -279,11 +279,11 @@ function grid_search() {
 
 // Remove related products from after single product hook
 // Remove up sells from after single product hook
-remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
+//remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
 
-remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_cross_sell_display', 20 );
+//remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_cross_sell_display', 20 );
 
-remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
+//remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
 
 /**
  *
@@ -311,13 +311,14 @@ function yourthemename_upsell_related_cross() {
 function redisplay_cross() {
 
 	if ( get_field( 'show_crosssells', 'option' ) !== true ) {
-	    echo 'billz';
+		echo 'billz';
+
 		return;
 	}
 	$net  = ( get_field( 'cross_sells', 'option' ) ) ? (int) get_field( 'cross_sells', 'option' ) : 4;
 	$cols = ( get_field( 'cross_sell_columns', 'option' ) ) ? (int) get_field( 'cross_sell_columns', 'option' ) : 4;
 
-	woocommerce_cross_sell_display($net, $cols);
+	woocommerce_cross_sell_display( $net, $cols );
 }
 
 
@@ -348,8 +349,6 @@ add_action( 'woocommerce_after_single_product_summary', 'get_related_items', 20 
 function get_related_items( $post_id ) {
 
 
-
-
 	//$title = get_field( $rit, 'option' ) ? get_field( $rit, 'option' ) : 'Related Products';
 
 	//woocommerce_output_related_products();
@@ -373,24 +372,24 @@ function replay_upsells( $post_id ) {
 
 
 	global $product;
-	$product     = wc_get_product( $post_id );
+	$product = wc_get_product( $post_id );
 
-	$related_ids = get_post_meta( $product->ID ,'_related_ids' );
+	$related_ids = get_post_meta( $product->ID, '_related_ids' );
 	//var_dump($related_ids);
 
 
+	$a = [];
+	$b = [];
+	$r = get_field( 'related_items' );
 
-    $a = [];$b=[];
-	$r = get_field('related_items');
-
-	if($r) {
+	if ( $r ) {
 		foreach ( $r as $id ) {
 			$a[] = get_post( $id );
-			$b[]   = $id;
+			$b[] = $id;
 		}
-    }
+	}
 
-    update_post_meta($product->ID,'_related_ids',$b);
+	update_post_meta( $product->ID, '_related_ids', $b );
 	$cross_sells = $product->get_cross_sell_ids();
 	$upsells     = $product->get_upsell_ids();
 	$u           = get_field( 'upsell_products' );
