@@ -213,7 +213,7 @@ function change_cross_sells_columns( $columns ) {
 	return $cols;
 }
 
-add_filter( 'woocommerce_output_related_products_args', 'wc_change_number_related_products', 15 );
+//add_filter( 'woocommerce_output_related_products_args', 'wc_change_number_related_products', 15 );
 
 function wc_change_number_related_products( $args ) {
 
@@ -337,7 +337,7 @@ function redisplay_related() {
 //add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 15 );
 //add_action( 'woocommerce_after_single_product_summary', 'woocommerce_cross_sell_display', 15 );yourthemename_cross
 //add_action( 'woocommerce_after_single_product_summary', 'redisplay_cross', 20 );
-add_action( 'woocommerce_after_single_product_summary', 'redisplay_related', 15 );
+//add_action( 'woocommerce_after_single_product_summary', 'redisplay_related', 15 );
 //add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
 
 //add_action( 'woocommerce_after_single_product_summary', 'yourthemename_upsell_related_cross', 20 );
