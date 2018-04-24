@@ -236,7 +236,7 @@ function wc_change_number_related_products( $args ) {
  */
 function custom_woocommerce_upsell_display_args( $args ) {
 
-	if ( get_field( 'upsells', 'option' ) ) {
+	/*if ( get_field( 'upsells', 'option' ) ) {
 		$ups = get_field( 'upsells', 'option' );
 	} else {
 		$ups = 4;
@@ -251,7 +251,7 @@ function custom_woocommerce_upsell_display_args( $args ) {
 	$args['posts_per_page'] = $ups;
 	$args['columns']        = $upc; //change number of upsells here
 
-	return $args;
+	return $args;*/
 }
 
 /**
@@ -343,7 +343,7 @@ function redisplay_related() {
 //add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
 
 //add_action( 'woocommerce_after_single_product_summary', 'yourthemename_upsell_related_cross', 20 );
-add_action( 'woocommerce_after_single_product_summary', 'get_related_items', 20 );
+//add_action( 'woocommerce_after_single_product_summary', 'get_related_items', 20 );
 
 
 function get_related_items( $post_id ) {
