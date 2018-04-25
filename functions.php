@@ -199,60 +199,7 @@ function wm_hide_elements() {
 
 }
 
-//add_filter( 'woocommerce_cross_sells_columns', 'change_cross_sells_columns' );
 
-/**
- * @param $columns
- *
- * @return int|mixed|null|void
- */
-function change_cross_sells_columns( $columns ) {
-
-	//$cols = ( get_field( 'cross_sell_columns', 'option' ) ) ? (int) get_field( 'cross_sell_columns', 'option' ) : 4;
-
-	//return $cols;
-}
-
-//add_filter( 'woocommerce_output_related_products_args', 'wc_change_number_related_products', 15 );
-
-function wc_change_number_related_products( $args ) {
-
-	$net  = ( get_field( 'related_total', 'option' ) ) ? (int) get_field( 'related_total', 'option' ) : 5;
-	$cols = ( get_field( 'related_columns', 'option' ) ) ? (int) get_field( 'related_columns', 'option' ) : 5;
-	echo 'net-' . $net;
-
-	$args['posts_per_page'] = $net;
-	$args['columns']        = $cols;
-
-	return $args;
-}
-
-
-//add_filter( 'woocommerce_upsell_display_args', 'custom_woocommerce_upsell_display_args' );
-/**
- * @param $args
- *
- * @return mixed
- */
-function custom_woocommerce_upsell_display_args( $args ) {
-
-	/*if ( get_field( 'upsells', 'option' ) ) {
-		$ups = get_field( 'upsells', 'option' );
-	} else {
-		$ups = 4;
-	}
-
-	if ( get_field( 'upsell_columns', 'option' ) ) {
-		$upc = get_field( 'upsell_columns', 'option' );
-	} else {
-		$upc = 4;
-	}
-
-	$args['posts_per_page'] = $ups;
-	$args['columns']        = $upc; //change number of upsells here
-
-	return $args;*/
-}
 
 /**
  * @return string
@@ -306,40 +253,10 @@ function yourthemename_upsell_related_cross() {
 }
 
 
-/**
- *
- */
-function redisplay_related() {
 
-	//if ( get_field( 'show_related', 'option' ) == true ) {
-	woocommerce_output_related_products();
-	//}
-
-
-}
 
 
 //add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
-//add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 15 );
-//add_action( 'woocommerce_after_single_product_summary', 'woocommerce_cross_sell_display', 15 );yourthemename_cross
-//add_action( 'woocommerce_after_single_product_summary', 'redisplay_cross', 20 );
-//add_action( 'woocommerce_after_single_product_summary', 'redisplay_related', 15 );
-//add_action( 'woocommerce_after_single_product_summary', 'replay_upsells', 15 );
-
-//add_action( 'woocommerce_after_single_product_summary', 'yourthemename_upsell_related_cross', 20 );
-//add_action( 'woocommerce_after_single_product_summary', 'get_related_items', 20 );
-
-
-function get_related_items( $post_id ) {
-
-
-	//$title = get_field( $rit, 'option' ) ? get_field( $rit, 'option' ) : 'Related Products';
-
-	//woocommerce_output_related_products();
-	//return $ri;
-
-
-}
 
 
 add_action( 'save_post', 'replay_upsells' );
