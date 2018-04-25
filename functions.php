@@ -208,9 +208,9 @@ function wm_hide_elements() {
  */
 function change_cross_sells_columns( $columns ) {
 
-	$cols = ( get_field( 'cross_sell_columns', 'option' ) ) ? (int) get_field( 'cross_sell_columns', 'option' ) : 4;
+	//$cols = ( get_field( 'cross_sell_columns', 'option' ) ) ? (int) get_field( 'cross_sell_columns', 'option' ) : 4;
 
-	return $cols;
+	//return $cols;
 }
 
 //add_filter( 'woocommerce_output_related_products_args', 'wc_change_number_related_products', 15 );
@@ -303,22 +303,6 @@ function yourthemename_upsell_related_cross() {
 			}
 		}
 	}
-}
-
-/**
- *
- */
-function redisplay_cross() {
-
-	if ( get_field( 'show_crosssells', 'option' ) !== true ) {
-		echo 'billz';
-
-		return;
-	}
-	$net  = ( get_field( 'cross_sells', 'option' ) ) ? (int) get_field( 'cross_sells', 'option' ) : 4;
-	$cols = ( get_field( 'cross_sell_columns', 'option' ) ) ? (int) get_field( 'cross_sell_columns', 'option' ) : 4;
-
-	woocommerce_cross_sell_display( $net, $cols );
 }
 
 
