@@ -235,11 +235,12 @@ function product_column_custom( $column, $postid ) {
 	switch ( $column ) {
 		case 'menu_order':
 			$order = (int) $p->menu_order;
-			update_field( 'product_order', $order, $p->ID );
+			//update_field( 'product_order', $order, $p->ID );
+			echo $order;
 			break;
-		case 'upsell_products':
-			$ups = ( get_field( 'upsell_products', $p->ID ) ) ? count( get_field( 'upsell_products', $p->ID ) ) : '';
-			echo $ups;
+
+		case 'sort':
+
 			break;
 
 	}
@@ -257,13 +258,26 @@ function product_column_register_sortable( $columns ) {
 
 	unset( $columns['featured'] );
 
-	$columns['menu_order']      = 'Menu Order';
-	$columns['upsell_products'] = 'UpSells';
+	$columns['menu_order'] = 'Menu Order';
+	//$columns['upsell_products'] = 'UpSells';
 
+	$columns['sort'] = 'Sort';
 
 	return $columns;
 }
+add_action( 'pre_get_posts', 'mycpt_custom_orderby' );
 
+function mycpt_custom_orderby( $query ) {
+	if ( ! is_admin() )
+		return;
+
+	$orderby = $query->get( 'orderby');
+
+	if ( 'acf_field' == $orderby ) {
+		$query->set( 'meta_key', 'sort_order' );
+		$query->set( 'orderby', 'meta_value_num' );
+	}
+}
 
 add_filter( 'acf/fields/relationship/result', 'id_relationship_result', 10, 4 );
 function id_relationship_result( $title, $post, $field, $post_id ) {
@@ -293,41 +307,76 @@ function handle_product_sort() {
 		$opts = get_option( 'prod_order_set' );
 	}
 
+	$i = 0;
+
 	foreach ( $posts as $post ) {
 		$prod = wc_get_product( $post->ID );
 		$prod->get_menu_order();
+
 		$prod_set[] = [
 			'menu_order' => (int) $prod->get_menu_order(),
-			'ID'         => (int) $post->ID,
+			'IDD'        => (int) $post->ID,
+			'sort'       => (int) $post->sort_order,
 		];
+		$i ++;
 	}
 
-	if ( ! $prod_set === $opts ) {
-		update_option( 'prod_order_set', $prod_set );
-	}
+
+	update_option( 'prod_order_set', $prod_set );
+
 
 	return $prod_set;
-	//var_dump( $prod_set );
 }
 
 function dothis() {
 
-	$prods = handle_product_sort();
-	sort( $prods );
-	$i = 0;
+	$a = handle_product_sort();
+	$f = 0;
+	sort( $a );
 
-	foreach ($prods as $p) {
+
+	$i = 0;
+	while ( $i < 5 ) {
+		foreach ( $a as $k ) {
+			$idd = (int) $k['IDD'];
+
+			$post = get_post( $idd );
+			$what = update_post_meta( $post->ID, '_sort_order', $i );
+			$i ++;
+
+			echo get_post_meta( $post->ID, '_sort_order', true );
+		}
+	}
+	var_dump( $what );
+
+	/*foreach ( $opts as $o ) {
+		$post = get_post($o->ID );
+		update_post_meta( $post->ID, '_sort_order', $i );
+
+		$i ++;
+	}
+
+	echo $i . ' changed';
+	/*foreach ($prods as $p) {
 
 	    $post = get_post($p->ID);
 
-	    if ($p->menu_order == $old) {
 
+
+	    if ($j === 0) {
+            $j = $p->menu_order;
+            $i++;
+        }
+
+        if ($p->menu_order < $j) {
+	        $j=$p->menu_order;
+	        $i++;
         }
 
 	    update_post_meta($post->ID,'_sort_order', $i);
 
 
-    }
+    }*/
 	//print $json;
 }
 
