@@ -5,9 +5,15 @@
  * github.com/amg262
  */
 const PERF              = 'performance';
+/**
+ *
+ */
 const TEST              = 'test';
 
 
+/**
+ *
+ */
 const BUILD_ENVIRONMENT = TEST;
 
 //include_once( __DIR__ . '/custom.php' );
@@ -240,7 +246,8 @@ function product_column_custom( $column, $postid ) {
 			break;
 
 		case 'sort':
-
+            $sort = (int) $p->sort_order;
+            echo $sort;
 			break;
 
 	}
@@ -265,21 +272,17 @@ function product_column_register_sortable( $columns ) {
 
 	return $columns;
 }
-add_action( 'pre_get_posts', 'mycpt_custom_orderby' );
 
-function mycpt_custom_orderby( $query ) {
-	if ( ! is_admin() )
-		return;
-
-	$orderby = $query->get( 'orderby');
-
-	if ( 'acf_field' == $orderby ) {
-		$query->set( 'meta_key', 'sort_order' );
-		$query->set( 'orderby', 'meta_value_num' );
-	}
-}
 
 add_filter( 'acf/fields/relationship/result', 'id_relationship_result', 10, 4 );
+/**
+ * @param $title
+ * @param $post
+ * @param $field
+ * @param $post_id
+ *
+ * @return string
+ */
 function id_relationship_result( $title, $post, $field, $post_id ) {
 	// load a custom field from this $object and show it in the $result
 	$prod = new WC_Product( $post->ID );
@@ -292,20 +295,18 @@ function id_relationship_result( $title, $post, $field, $post_id ) {
 	return $title;
 }
 
-add_action( 'admin_footer', 'handle_product_sort' );
+add_action( 'admin_footer', 'dothis' );
 
+/**
+ * @return array
+ */
 function handle_product_sort() {
 
 	$args     = [ 'post_type' => 'product', 'post_status' => 'publish', 'posts_per_page' => - 1 ];
 	$posts    = get_posts( $args );
 	$prod_set = [];
 	$opts     = '';
-
-	if ( ! get_option( 'prod_order_set' ) ) {
-		add_option( 'prod_order_set', [ 'ID' => '', 'menu_order' => '', 'product_order' => '' ] );
-	} else {
-		$opts = get_option( 'prod_order_set' );
-	}
+	delete_option( 'prod_order_set' );
 
 	$i = 0;
 
@@ -321,63 +322,32 @@ function handle_product_sort() {
 		$i ++;
 	}
 
-
-	update_option( 'prod_order_set', $prod_set );
-
-
 	return $prod_set;
 }
 
+/**
+ *
+ */
 function dothis() {
 
-	$a = handle_product_sort();
-	$f = 0;
-	sort( $a );
-
+	$set = handle_product_sort();
+	sort( $set );
 
 	$i = 0;
-	while ( $i < 5 ) {
-		foreach ( $a as $k ) {
-			$idd = (int) $k['IDD'];
+/*
+	foreach ( $set as $obj ) {
+		$idd = (int) $obj['IDD'];
 
-			$post = get_post( $idd );
-			$what = update_post_meta( $post->ID, '_sort_order', $i );
-			$i ++;
+		$post = get_post( $idd );
 
-			echo get_post_meta( $post->ID, '_sort_order', true );
-		}
-	}
-	var_dump( $what );
-
-	/*foreach ( $opts as $o ) {
-		$post = get_post($o->ID );
-		update_post_meta( $post->ID, '_sort_order', $i );
-
+		$what = update_post_meta( $post->ID, '_sort_order', $i );
 		$i ++;
+        echo $what;
+		echo get_post_meta( $post->ID, '_sort_order', true );
 	}
 
-	echo $i . ' changed';
-	/*foreach ($prods as $p) {
+	var_dump( $what );*/
 
-	    $post = get_post($p->ID);
-
-
-
-	    if ($j === 0) {
-            $j = $p->menu_order;
-            $i++;
-        }
-
-        if ($p->menu_order < $j) {
-	        $j=$p->menu_order;
-	        $i++;
-        }
-
-	    update_post_meta($post->ID,'_sort_order', $i);
-
-
-    }*/
-	//print $json;
 }
 
 //add_action( 'admin_footer', 'dothis' );
@@ -386,6 +356,9 @@ function dothis() {
 
 //add_action( 'admin_footer', 'dele' );
 
+/**
+ *
+ */
 function dele() {
 
 
