@@ -198,7 +198,6 @@ function wm_hide_elements() {
 }
 
 
-
 /**
  * @return string
  */
@@ -279,5 +278,71 @@ function id_relationship_result( $title, $post, $field, $post_id ) {
 	return $title;
 }
 
+add_action( 'admin_footer', 'handle_product_sort' );
 
+function handle_product_sort() {
+
+	$args     = [ 'post_type' => 'product', 'post_status' => 'publish', 'posts_per_page' => - 1 ];
+	$posts    = get_posts( $args );
+	$prod_set = [];
+	$opts     = '';
+
+	if ( ! get_option( 'prod_order_set' ) ) {
+		add_option( 'prod_order_set', [ 'ID' => '', 'menu_order' => '', 'product_order' => '' ] );
+	} else {
+		$opts = get_option( 'prod_order_set' );
+	}
+
+	foreach ( $posts as $post ) {
+		$prod = wc_get_product( $post->ID );
+		$prod->get_menu_order();
+		$prod_set[] = [
+			'menu_order' => (int) $prod->get_menu_order(),
+			'ID'         => (int) $post->ID,
+		];
+	}
+
+	if ( ! $prod_set === $opts ) {
+		update_option( 'prod_order_set', $prod_set );
+	}
+
+	return $prod_set;
+	//var_dump( $prod_set );
+}
+
+function dothis() {
+
+	$prods = handle_product_sort();
+	sort( $prods );
+	$i = 0;
+
+	foreach ($prods as $p) {
+
+	    $post = get_post($p->ID);
+
+	    if ($p->menu_order == $old) {
+
+        }
+
+	    update_post_meta($post->ID,'_sort_order', $i);
+
+
+    }
+	//print $json;
+}
+
+//add_action( 'admin_footer', 'dothis' );
+
+//include_once(__DIR__.'/wasser/uninstall.php');
+
+//add_action( 'admin_footer', 'dele' );
+
+function dele() {
+
+
+	$del = new WS_Uninstall();
+	$i   = $del->delete_postmeta();
+	$del = null;
+	echo $i . ' deleted';
+}
 
