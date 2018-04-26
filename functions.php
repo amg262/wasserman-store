@@ -27,13 +27,13 @@ add_action( 'wp_enqueue_scripts', 'wasserman_store_enqueue' );
 function wasserman_store_enqueue() {
 	wp_enqueue_style( 'wasserman-store-partent-style', get_template_directory_uri() . '/style.css' );
 
-	if ( BUILD_ENVIRONMENT === PERF ) {
-		wp_enqueue_script( 'wassminjs', get_theme_file_uri() . '/wasser/scripts.min.js' );
-		wp_enqueue_style( 'wassmincsss', get_theme_file_uri() . '/wasser/styles.min.css' );
-	} else {
-		wp_enqueue_script( 'wassjs', get_theme_file_uri() . '/wasser/scripts.js' );
-		wp_enqueue_style( 'wasscsss', get_theme_file_uri() . '/wasser/styles.css' );
-	}
+	//if ( BUILD_ENVIRONMENT === PERF ) {
+	//	wp_enqueue_script( 'wassminjs', get_theme_file_uri() . '/wasser/scripts.min.js' );
+	//	wp_enqueue_style( 'wassmincsss', get_theme_file_uri() . '/wasser/styles.min.css' );
+	//} else {
+	wp_enqueue_script( 'wassjs', get_theme_file_uri() . '/wasser/scripts.js' );
+	wp_enqueue_style( 'wasscsss', get_theme_file_uri() . '/wasser/styles.css' );
+	//}
 }
 
 add_action( 'after_setup_theme', 'register_user_menu' );
@@ -343,24 +343,5 @@ function handle_product_sort() {
 
 	return $prod_set;
 
-}
-
-
-//add_action( 'admin_footer', 'dothis' );
-
-//include_once(__DIR__.'/wasser/uninstall.php');
-
-//add_action( 'admin_footer', 'dele' );
-
-/**
- *
- */
-function dele() {
-
-
-	$del = new WS_Uninstall();
-	$i   = $del->delete_meta_keys();
-	$del = null;
-	echo $i . ' deleted';
 }
 
