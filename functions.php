@@ -295,7 +295,7 @@ function id_relationship_result( $title, $post, $field, $post_id ) {
 	return $title;
 }
 
-//add_action( 'admin_footer', 'handle_product_sort' );
+add_action( 'admin_footer', 'handle_product_sort' );
 
 /**
  * @return array
