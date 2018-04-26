@@ -29,18 +29,18 @@ class WS_Uninstall {
 	 * @var array
 	 */
 	private $meta_keys = [
-		'_upsell_active',
-		'_upsell_products',
-		'_crosssell_active',
-		'_crosssell_products',
-		'_related_items',
-		'_related_active',
-		'_rel',
-		'_custom_order',
-		'_product_order',
+		'upsell_active',
+		'upsell_products',
+		'crosssell_active',
+		'crosssell_products',
+		'related_items',
+		'related_active',
+		'rel',
+		'custom_order',
+		'product_order',
 		//'__crosssell_ids',
 		//'__upsell_ids',
-		'_related_products',
+		'related_products',
 		'product_order',
 		'product_sort',
 	];
@@ -88,16 +88,17 @@ class WS_Uninstall {
 		global $wpdb;
 		$this->k   = 0;
 		$this->sql = '';
-
-		foreach ( $this->option_keys as $key ) {
-			$this->sql .= "DELETE FROM `wp_postmeta` WHERE `meta_key` LIKE \'%' . $key . '%\' ; ";
-			$this->k ++;
-		}
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		foreach ( $this->option_keys as $key ) {
+			$this->sql .= "DELETE * FROM `wp_postmeta` WHERE `meta_key` LIKE \'%' . $key . '%\' ; ";
+			$this->k ++;
+
+		}
 
 		dbDelta( $this->sql );
 
 		return $this->k;
+
 	}
 
 	/**

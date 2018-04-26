@@ -246,8 +246,8 @@ function product_column_custom( $column, $postid ) {
 			break;
 
 		case 'sort':
-            $sort = (int) $p->sort_order;
-            echo $sort;
+			$sort = (int) $p->sort_order;
+			echo $sort;
 			break;
 
 	}
@@ -265,7 +265,7 @@ function product_column_register_sortable( $columns ) {
 
 	unset( $columns['featured'] );
 
-	$columns['menu_order'] = 'Menu Order';
+	$columns['menu_order'] = 'Order';
 	//$columns['upsell_products'] = 'UpSells';
 
 	$columns['sort'] = 'Sort';
@@ -295,7 +295,7 @@ function id_relationship_result( $title, $post, $field, $post_id ) {
 	return $title;
 }
 
-add_action( 'admin_footer', 'dothis' );
+//add_action( 'admin_footer', 'handle_product_sort' );
 
 /**
  * @return array
@@ -305,10 +305,9 @@ function handle_product_sort() {
 	$args     = [ 'post_type' => 'product', 'post_status' => 'publish', 'posts_per_page' => - 1 ];
 	$posts    = get_posts( $args );
 	$prod_set = [];
+	$set      = [];
 	$opts     = '';
-	delete_option( 'prod_order_set' );
 
-	$i = 0;
 
 	foreach ( $posts as $post ) {
 		$prod = wc_get_product( $post->ID );
@@ -319,36 +318,33 @@ function handle_product_sort() {
 			'IDD'        => (int) $post->ID,
 			'sort'       => (int) $post->sort_order,
 		];
-		$i ++;
 	}
 
-	return $prod_set;
-}
-
-/**
- *
- */
-function dothis() {
-
-	$set = handle_product_sort();
+	$set = $prod_set;
 	sort( $set );
 
-	$i = 0;
-/*
+	$i = 1;
+
 	foreach ( $set as $obj ) {
-		$idd = (int) $obj['IDD'];
-
+		$idd  = (int) $obj['IDD'];
 		$post = get_post( $idd );
-
 		$what = update_post_meta( $post->ID, '_sort_order', $i );
 		$i ++;
-        echo $what;
-		echo get_post_meta( $post->ID, '_sort_order', true );
 	}
 
-	var_dump( $what );*/
+
+	if ( get_option( 'wasser_sort_total' ) !== false ) {
+		update_option( 'wasser_sort_total', $i );
+	} else {
+		add_option( 'wasser_sort_total', $i );
+	}
+
+	//var_dump( get_option( 'wasser_sort_total' ) );
+
+	return $prod_set;
 
 }
+
 
 //add_action( 'admin_footer', 'dothis' );
 
@@ -363,7 +359,7 @@ function dele() {
 
 
 	$del = new WS_Uninstall();
-	$i   = $del->delete_postmeta();
+	$i   = $del->delete_meta_keys();
 	$del = null;
 	echo $i . ' deleted';
 }
