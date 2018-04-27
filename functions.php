@@ -4,19 +4,6 @@
  * andrewmgunn26@gmail.com
  * github.com/amg262
  */
-const PERF              = 'performance';
-/**
- *
- */
-const TEST              = 'test';
-
-
-/**
- *
- */
-const BUILD_ENVIRONMENT = TEST;
-
-//include_once( __DIR__ . '/custom.php' );
 
 //Your awesome code could start here.
 add_action( 'wp_enqueue_scripts', 'wasserman_store_enqueue' );
@@ -27,13 +14,10 @@ add_action( 'wp_enqueue_scripts', 'wasserman_store_enqueue' );
 function wasserman_store_enqueue() {
 	wp_enqueue_style( 'wasserman-store-partent-style', get_template_directory_uri() . '/style.css' );
 
-	if ( BUILD_ENVIRONMENT === PERF ) {
-		wp_enqueue_script( 'wassminjs', get_theme_file_uri() . '/wasser/scripts.min.js' );
-		wp_enqueue_style( 'wassmincsss', get_theme_file_uri() . '/wasser/styles.min.css' );
-	} else {
-		wp_enqueue_script( 'wassjs', get_theme_file_uri() . '/wasser/scripts.js' );
-		wp_enqueue_style( 'wasscsss', get_theme_file_uri() . '/wasser/styles.css' );
-	}
+	//wp_enqueue_script( 'wassminjs', get_theme_file_uri() . '/wasser/scripts.min.js' );
+	//wp_enqueue_style( 'wassmincsss', get_theme_file_uri() . '/wasser/styles.min.css' );
+	wp_enqueue_script( 'wassjs', get_theme_file_uri() . '/wasser/scripts.js' );
+	wp_enqueue_style( 'wasscsss', get_theme_file_uri() . '/wasser/styles.css' );
 }
 
 add_action( 'after_setup_theme', 'register_user_menu' );
