@@ -30,12 +30,21 @@
         <div class="entry-meta">
 			<?php //store_posted_on();
 
+			$post = wc_get_product( get_the_ID() );
+
+
+			$price = $post->get_sku();
+
+			if ( $price !== '' ) {
+				$sku = '<a href="' . $post->get_permalink() . '" ><strong style="color:#6A6A6A;">SKU:&nbsp;&nbsp;</strong>' . $price . '</a>';
+			}
+			//$price .= $post->get_price_suffix();
+
 			$terms = get_the_terms( get_the_ID(), 'product_cat' );
-			echo '<span class="price"># ' . get_the_ID() . '</span>';
+			echo '<span class="price">' . $sku . '   </span>';
 			the_excerpt();
 			$af = site_url() . '/cart/?add-to-cart=' . get_the_ID();
 
-			echo '<a rel="nofollow" class="button product_type_simple add_to_cart_button ajax_add_to_cart btn-search" href=' . esc_url( get_the_permalink() ) . '>View</a>';
 
 			echo '<a rel="nofollow" class="button product_type_simple add_to_cart_button ajax_add_to_cart" href=' . $af . '>Add to cart</a>';
 

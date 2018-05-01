@@ -253,7 +253,7 @@ ul#shipping_method li > label {
 
 }
 
-@media (min-width: 250px) and (max-width: 991px) {
+@media only screen and  (min-width: 250px) and (max-width: 991px) {
   #primary-mono {
     max-width: 100% !important;
     width: 100% !important;
@@ -275,7 +275,17 @@ ul#shipping_method li > label {
 
   .woocommerce div.product .cross-sells ul.products li.product, .woocommerce div.product .cross-sells ul li.product, .woocommerce div.product .related ul.products li.product, .woocommerce div.product .related ul li.product, .woocommerce div.product .upsells.products ul.products li.product, .woocommerce div.product .upsells.products ul li.product {
     width: 45.05% !important;
-    margin:0 !important;
+    margin: 2% 0 !important;
+  }
+
+  .woocommerce div.product ul.products.columns-5 li.product {
+    width: 45.05% !important;
+    margin: 2% 0 !important;
+  }
+
+  .woocommerce div.product ul.products.columns-4 li.product {
+    width: 45.05% !important;
+    margin: 2% 0 !important;
   }
 }
 
@@ -322,7 +332,6 @@ ul#shipping_method li {
 	}
 }*/
 
-
 .woocommerce.single-product.collateral-product-columns-4 ul.products li.product,
 .woocommerce-page.single-product.collateral-product-columns-4 ul.products li.product,
 .woocommerce.single-product.collateral-product-columns-4 .upsells.products li.product,
@@ -332,8 +341,9 @@ ul#shipping_method li {
 
 }
 
-.woocommerce ul.products.columns-5 li.product, .woocommerce-page ul.products.columns-5 li.product {
-  width: 16.95% !important;
+.woocommerce div.product .related ul.products.columns-5 li.product, .woocommerce div.product .related ul li.product, .woocommerce div.product ul.products.columns-5 li.product,
+.woocommerce section.related.products ul.products.columns-5 li.product, .woocommerce-page ul.products.columns-5 li.product {
+  width: 16.95%;
 }
 
 .woocommerce ul.products.columns-4 li.product, .woocommerce-page ul.products.columns-4 li.product {
@@ -348,10 +358,18 @@ ul#shipping_method li {
   width: 22.05%;
 
 }
-.woocommerce div.product .cross-sells ul.products li.product, .woocommerce div.product .cross-sells ul li.product, .woocommerce div.product .related ul.products li.product, .woocommerce div.product .related ul li.product, .woocommerce div.product .upsells.products ul.products li.product, .woocommerce div.product .upsells.products ul li.product {
-  width: 22.05% !important;
+
+.woocommerce div.product ul.products.columns-5 li.product {
+  width: 16.95%;
 
 }
+
+.woocommerce div.product ul.products.columns-4 li.product,
+.woocommerce div.product .upsells.products ul.products.columns-4 li.product, .woocommerce div.product .upsells.products ul li.product {
+  width: 22.05%;
+
+}
+
 .search-results article.status-publish,
 .search-results header.entry-header,
 .search-results footer.entry-footer,
