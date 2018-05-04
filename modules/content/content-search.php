@@ -33,20 +33,31 @@
 			$post = wc_get_product( get_the_ID() );
 
 
-			$price = $post->get_sku();
+			$price = $post->get_price();
+			//$id = $post->get_id();
 
-			if ( $price !== '' ) {
-				$sku = '<a href="' . $post->get_permalink() . '" ><strong style="color:#6A6A6A;">SKU:&nbsp;&nbsp;</strong>' . $price . '</a>';
-			}
+
 			//$price .= $post->get_price_suffix();
 
-			$terms = get_the_terms( get_the_ID(), 'product_cat' );
-			echo '<span class="price">' . $sku . '   </span>';
+			//$terms = get_the_terms( get_the_ID(), 'product_cat' );
+			echo '<span class="price">$' . $price . '   </span>';
+			$sku = $post->get_sku();
+			$id  = $post->get_id();
+
+			if ( $sku !== '' ) {
+				$sku_x = '<a href="' . $post->get_permalink() . '" ><strong style="color:#6A6A6A;">SKU:&nbsp;&nbsp;</strong>' . $sku . '</a><br><br>';
+
+				echo $sku_x;
+			}
 			the_excerpt();
-			$af = site_url() . '/cart/?add-to-cart=' . get_the_ID();
 
 
-			echo '<a rel="nofollow" class="button product_type_simple add_to_cart_button ajax_add_to_cart" href=' . $af . '>Add to cart</a>';
+			$af = site_url() . '/cart/?add-to-cart=' . $id;
+			$ac = $post->get_permalink();
+
+
+			echo '<a rel="nofollow" class="button product_type_simple add_to_cart_button ajax_add_to_cart" href=' . $ac . '>View Item</a>';
+			//echo //'<a rel="nofollow" class="button product_type_simple add_to_cart_button ajax_add_to_cart" href=' . $af . '>Add to cart</a>';
 
 			?>
 

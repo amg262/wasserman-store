@@ -348,5 +348,78 @@ function handle_product_sort() {
 function custom_excerpt_length( $length ) {
 	return 50;
 }
+
 add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
+
+
+//add_action( 'admin_init', 'batch_append_sku' );
+
+function batch_append_sku() {
+
+	$args  = [ 'post_type' => 'product', 'post_status' => 'publish', 'posts_per_page' => - 1 ];
+	$i     = 0;
+	$posts = get_posts( $args );
+
+	foreach ( $posts as $post ) {
+		//$type  = get_post_type( $post );
+
+		$prod = wc_get_product( $post->ID );
+		$sku  = $prod->get_sku();
+
+
+		if ( $sku !== '' ) {
+
+			if ( $prod->get_short_description() === $sku ) {
+				//$prod->set_short_description( $sku );
+				//$prod->save();
+
+
+				$i ++;
+			}
+		}
+
+	}
+
+	echo $i . ' updated';
+
+}
+
+function append_sku( $post ) {
+
+	global $product;
+	global $post;
+
+	$type = get_post_type( $post );
+
+	if ( 'product' === $type ) {
+
+		$prod = wc_get_product( $post->ID );
+		$sku  = $prod->get_sku();
+
+		if ( $sku !== '' ) {
+
+			if ( $prod->get_short_description() !== $sku ) {
+				$prod->set_short_description( $sku );
+				$prod->save();
+			} else {
+				echo 'bruce';
+			}
+		}
+
+	}
+
+
+}
+
+add_action( 'save_post', 'append_sku', 10, 2 );
+
+function wpse_13965766_orderby() {
+	if ( isset( $_GET['s'] ) ) {
+		set_query_var( 'orderby', 'menu_order' );
+		set_query_var( 'order', 'ASC' );
+
+	}
+}
+
+add_filter( 'pre_get_posts', 'wpse_13965766_orderby' );
 
