@@ -46,7 +46,7 @@ gulp.task("imagemin", function () {
 });
 
 gulp.task("cssnano", function () {
-    gulp.src(paths.lib_css)
+    gulp.src(paths.styles)
         .pipe(cssnano())
         .pipe(rename({suffix: ".min"}))
         .pipe(gulp.dest(paths.wasser))
@@ -66,7 +66,7 @@ gulp.task('scripts', function () {
  */
 gulp.task("uglify", function () {
 
-    gulp.src(paths.lib_js)
+    gulp.src(paths.scripts)
         .pipe(uglify())
         .pipe(rename({suffix: ".min"}))
         .pipe(gulp.dest(paths.wasser));
@@ -100,13 +100,13 @@ gulp.task("watch", function () {
     gulp.watch('*.php').on("change", browserSync.reload);
     gulp.watch('wasser/*.php').on("change", browserSync.reload);
     gulp.watch('*.css').on("change", browserSync.reload);
-    gulp.watch('wasser/*.css').on("change", browserSync.reload);
+    gulp.watch('wasser/*.css').on('change', browserSync.reload);
     gulp.watch('modules/content/*.php').on("change", browserSync.reload);
 });
 
 //gulp.task("default", ["purge", "imagemin", "cssnano", "uglify", "serve", "watch"]);
 gulp.task("default", ["purge", "imagemin", "cssnano", "uglify", "serve", "watch"]);
-gulp.task("build", ["purge", "cssnano", "uglify"]);
+gulp.task("build", ["purge","cssnano", "uglify"]);
 gulp.task("clean", ["purge", "cssnano", "uglify", "serve", "watch"]);
 gulp.task("live", ["serve", "watch"]);
 
