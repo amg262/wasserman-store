@@ -398,6 +398,8 @@ function append_sku( $post ) {
 
 	$type = get_post_type( $post );
 
+
+
 	if ( 'product' === $type ) {
 
 		$prod = wc_get_product( $post->ID );

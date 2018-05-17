@@ -21,11 +21,13 @@ Text Domain: wasserman-store
     width:95%;
     margin: 0 0 15px;*/
 }
+
 .soliloquy-theme-base .soliloquy-caption-bottom .soliloquy-caption-inside {
     padding-bottom: 10px !important;
-    font-size: 16px !important;
-    font-weight: 600 !important;
+    font-size:      16px !important;
+    font-weight:    600 !important;
 }
+
 .woocommerce ul.products li.product .price del {
     display: none !important;
 }
@@ -336,6 +338,10 @@ ul#shipping_method li > label {
         display: none !important;
     }
 
+    form.woocommerce-ordering {
+        margin:10px auto !important;
+        clear:  both !important;
+    }
 }
 
 /*
