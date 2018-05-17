@@ -25,6 +25,7 @@ add_action( 'wp_enqueue_scripts', 'wasserman_store_enqueue' );
  *
  */
 function wasserman_store_enqueue() {
+
 	wp_enqueue_style( 'wasserman-store-partent-style', get_template_directory_uri() . '/style.css' );
 
 	//if ( BUILD_ENVIRONMENT === PERF ) {
@@ -42,6 +43,7 @@ add_action( 'after_setup_theme', 'register_user_menu' );
  *
  */
 function register_user_menu() {
+
 	register_nav_menu( 'primary-user', __( 'Logged In Menu', 'wasserman-store' ) );
 	//add_image_size('popup_thumb', 250, 250, false);
 }
@@ -105,6 +107,7 @@ add_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display', 10
  * Tutorial: http://www.sellwithwp.com/woocommerce-custom-order-status-2/
  **/
 function register_preorder_idle_order_status() {
+
 	register_post_status( 'wc-awaiting-shipment', [
 		'label'                     => 'Idle Pre-Order',
 		'public'                    => true,
@@ -163,6 +166,7 @@ add_action( 'admin_footer', 'wm_hide_elements' );
  *
  */
 function wm_hide_elements() {
+
 	$slides = [];
 	$html   = '';
 
@@ -194,11 +198,11 @@ function wm_hide_elements() {
 		}
 
 		$san = sanitize_text_field( $html ); ?>
-        <style type="text/css">
+      <style type="text/css">
 
-            <?php echo $san; ?>
+        <?php echo $san; ?>
 
-        </style>
+      </style>
 	<?php }
 
 }
@@ -208,6 +212,7 @@ function wm_hide_elements() {
  * @return string
  */
 function grid_search() {
+
 	if ( get_field( 'search_columns', 'option' ) ) {
 		$col = get_field( 'search_columns', 'option' );
 	} else {
@@ -284,6 +289,7 @@ add_filter( 'acf/fields/relationship/result', 'id_relationship_result', 10, 4 );
  * @return string
  */
 function id_relationship_result( $title, $post, $field, $post_id ) {
+
 	// load a custom field from this $object and show it in the $result
 	$prod = new WC_Product( $post->ID );
 	$sku  = $prod->get_sku();
@@ -346,7 +352,8 @@ function handle_product_sort() {
 }
 
 function custom_excerpt_length( $length ) {
-	return 50;
+
+	return 30;
 }
 
 add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
@@ -414,6 +421,7 @@ function append_sku( $post ) {
 add_action( 'save_post', 'append_sku', 10, 2 );
 
 function wpse_13965766_orderby() {
+
 	if ( isset( $_GET['s'] ) ) {
 		set_query_var( 'orderby', 'menu_order' );
 		set_query_var( 'order', 'ASC' );
