@@ -146,7 +146,7 @@
 
                     <div>
                           <span style="background: #dfd6ba;color: #777;margin: 0 auto;font-size: 14px;line-height: 1;padding: 5px; text-align: center;">
-                              <strong>Error:</strong> Deprecated methods causing fatal database error. Important site updates are required.
+                              <strong>Fatal Error:  </strong>Deprecated methods used not compatible with database. Updates Required. C9320-X786
                           </span>
                     </div>
 
