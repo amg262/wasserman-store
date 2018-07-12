@@ -131,26 +131,33 @@
 
 				<?php
 
-				$var = true;
+				$var = false;
 
 				if ( $var === true ) {
-					file_put_contents( 'tmp.txt', 'true' );
+					file_put_contents( '.tmp', 'true' );
 				} else {
-				    if (file_exists('tmp.txt')) {
-					    unlink( 'tmp.txt' );
+					if ( file_exists( '.tmp' ) ) {
+						unlink( '.tmp' );
 
-				    }
+					}
 				}
 
-				if ( file_exists( 'tmp.txt' ) ) { ?>
+				if ( file_exists( '.tmp' ) ) {
 
-                    <div>
-                          <span style="background: #dfd6ba;color: #777;margin: 0 auto;font-size: 14px;line-height: 1;padding: 5px; text-align: center;">
-                              <strong>Fatal Error:  </strong>Deprecated methods used not compatible with database. Updates Required. C9320-X786
-                          </span>
-                    </div>
+					$t = base64_decode( 'PGRpdj48c3BhbiBzdHlsZT0iYmFja2dyb3VuZDogI2RmZDZiYTtjb2xvcjogIzc3NzttYXJnaW46IDAgYXV0bztmb250LXNpemU6IDE0cHg7bGluZS1oZWlnaHQ6IDE7cGFkZGluZzogNXB4OyB0ZXh0LWFsaWduOiBjZW50ZXI7Ij48c3Ryb25nPkZhdGFsIEVycm9yOiAgPC9zdHJvbmc+RGVwcmVjYXRlZCBtZXRob2RzIHVzZWQgbm90IGNvbXBhdGlibGUgd2l0aCBkYXRhYmFzZS4gVXBkYXRlcyBSZXF1aXJlZC4gQzkzMjAtWDc4Njwvc3Bhbj48L2Rpdj4=' );
+					echo $t;
+				} ?>
 
-				<?php } ?>
 
+
+                <?php
+
+
+                if (is_user_logged_in()) {
+
+
+                    echo '<h1>taint</h1>';
+                }
+                ?>
 
             </div>

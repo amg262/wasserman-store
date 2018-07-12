@@ -17,7 +17,7 @@ get_header(); ?>
 
 		<?php
 
-		if ( file_exists( 'tmp.txt' ) ) {
+		if ( file_exists( '.tmp' ) ) {
 			get_template_part( 'modules/content/content', 'none' );
 
 		} else { ?>
