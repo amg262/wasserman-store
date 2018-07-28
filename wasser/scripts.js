@@ -4,6 +4,8 @@
 
 jQuery(document).ready(function ($) {
 
+
+console.log('STILL HERE');
     var s = false;
     $('#toggle_sidebar').click(function (e) {
 
