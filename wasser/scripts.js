@@ -26,6 +26,12 @@ console.log('STILL HERE');
         }
     });
 
+    $('input.input-text').click(function(){
+
+        alert('hit');  console.log(' HERE');
+
+    });
+
 });
 
 jQuery(function ($) {
